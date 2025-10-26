@@ -117,7 +117,7 @@ export function Header() {
                 transition={{ duration: 0.5 }}
                 className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10"
               >
-                <img src="/logo.svg" alt="ShopHub" className="h-6 w-6 text-primary" />
+                <img src="/e-commerce-web/logo.svg" alt="ShopHub" className="h-6 w-6 text-primary" />
               </motion.div>
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 ShopHub

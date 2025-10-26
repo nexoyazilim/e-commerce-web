@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider } from './context/ThemeContextProvider';
 import { Layout } from './components/layout/Layout';
 import { ScrollToTop } from './components/common/ScrollToTop';
 import { PageTransition } from './components/common/PageTransition';

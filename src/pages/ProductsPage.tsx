@@ -51,7 +51,7 @@ function ProductsPage() {
 
   // Filter products
   const filteredProducts = useMemo(() => {
-    let filtered = products.filter((product) => {
+    const filtered = products.filter((product) => {
       const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesPrice =
         product.price >= filterStore.priceRange[0] && product.price <= filterStore.priceRange[1];

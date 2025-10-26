@@ -72,8 +72,8 @@ export function EnhancedSearch({ onClose }: EnhancedSearchProps) {
   const handleVoiceSearch = () => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognitionConstructor = 
-        (window as any).webkitSpeechRecognition || 
-        (window as any).SpeechRecognition;
+        window.webkitSpeechRecognition || 
+        (window as unknown as { SpeechRecognition: SpeechRecognitionConstructor }).SpeechRecognition;
       
       const recognition = new SpeechRecognitionConstructor();
       recognition.continuous = false;
@@ -83,7 +83,7 @@ export function EnhancedSearch({ onClose }: EnhancedSearchProps) {
         setIsListening(true);
       };
       
-      recognition.onresult = (event: any) => {
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
         const transcript = event.results[0][0].transcript;
         setQuery(transcript);
         recognition.stop();

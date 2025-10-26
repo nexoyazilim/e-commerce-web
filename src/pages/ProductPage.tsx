@@ -30,7 +30,7 @@ export function ProductPage() {
   const [showConfetti, setShowConfetti] = useState(false);
   
   const addItem = useCartStore((state) => state.addItem);
-  const isFavorite = product ? useFavoritesStore((state) => state.isFavorite(product.id)) : false;
+  const isFavorite = useFavoritesStore((state) => state.isFavorite(product?.id || ''));
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
 
   // Sync state when product loads

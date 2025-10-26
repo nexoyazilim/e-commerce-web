@@ -9,6 +9,7 @@ import { StarRating } from '@/components/common/StarRating';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import type { Product } from '@/types';
 
 interface ComparisonTableProps {
   isOpen: boolean;
@@ -24,7 +25,7 @@ export function ComparisonTable({ isOpen }: ComparisonTableProps) {
 
   if (!isOpen || products.length < 2) return null;
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     addItem({
       productId: product.id,
       variantKey: 'default',

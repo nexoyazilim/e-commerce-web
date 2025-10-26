@@ -74,7 +74,7 @@ export function sanitizeEmail(email: string): string {
   }
   
   // Remove any potentially malicious characters but keep basic email chars
-  return trimmed.replace(/[<>\"']/g, '');
+  return trimmed.replace(/[<>"']/g, '');
 }
 
 /**
@@ -91,8 +91,8 @@ export function sanitizeSearchQuery(query: string): string {
   const sanitized = query
     .trim()
     .substring(0, maxLength)
-    .replace(/[<>\"']/g, '') // Remove dangerous HTML chars
-    .replace(/[';\-]/g, ''); // Remove SQL-like chars (escape dash to use literally)
+    .replace(/[<>"']/g, '') // Remove dangerous HTML chars
+    .replace(/[';-]/g, ''); // Remove SQL-like chars (dash at end doesn't need escaping)
   
   return sanitized;
 }
@@ -103,6 +103,7 @@ export function sanitizeSearchQuery(query: string): string {
  * @returns Clean string without control characters
  */
 export function removeControlCharacters(input: string): string {
+  // eslint-disable-next-line no-control-regex
   return input.replace(/[\x00-\x1F\x7F]/g, '');
 }
 

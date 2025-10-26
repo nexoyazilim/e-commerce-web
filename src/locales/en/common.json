@@ -1,0 +1,71 @@
+{
+  "app": {
+    "title": "ShopHub"
+  },
+  "actions": {
+    "addToCart": "Add to cart",
+    "favorites": "Favorites"
+  },
+  "lang": {
+    "en": "English",
+    "tr": "Turkish"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "save": "Save"
+  },
+  "review": {
+    "reviews": "Reviews",
+    "totalReviews": "{{count}} reviews",
+    "writeReview": "Write a Review",
+    "rating": "Rating",
+    "title": "Review Title",
+    "titlePlaceholder": "Give your review a title",
+    "comment": "Your Review",
+    "commentPlaceholder": "Share your experience with this product...",
+    "submit": "Submit Review",
+    "noReviews": "No reviews yet",
+    "noReviewsDescription": "Be the first to review this product!",
+    "writeFirstReview": "Write First Review",
+    "submitted": "Thank you for your review!",
+    "helpful": "Helpful"
+  },
+  "errors": {
+    "titleRequired": "Title is required",
+    "commentRequired": "Comment is required",
+    "ratingRequired": "Please select a rating"
+  },
+  "comparison": {
+    "comparing": "Comparing",
+    "clear": "Clear",
+    "compare": "Compare Now",
+    "addMore": "Add {{count}} more",
+    "removed": "Product removed from comparison",
+    "added": "Product added to comparison",
+    "maxItems": "Maximum 4 products can be compared",
+    "minItems": "Add at least 2 products to compare",
+    "title": "Product Comparison",
+    "clearAll": "Clear All",
+    "feature": "Feature",
+    "product": "Product",
+    "brand": "Brand",
+    "category": "Category",
+    "rating": "Rating",
+    "price": "Price",
+    "availability": "Availability",
+    "actions": "Actions"
+  },
+  "inStock": "In Stock",
+  "outOfStock": "Out of Stock",
+  "viewDetails": "View Details",
+  "addedToCart": "Added to cart",
+  "search": {
+    "placeholder": "Search products, brands, categories...",
+    "recentSearches": "Recent Searches",
+    "trending": "Trending",
+    "results": "{{count}} results",
+    "noResults": "No results found"
+  }
+}
+

@@ -1,0 +1,71 @@
+{
+  "app": {
+    "title": "ShopHub"
+  },
+  "actions": {
+    "addToCart": "Sepete ekle",
+    "favorites": "Favoriler"
+  },
+  "lang": {
+    "en": "İngilizce",
+    "tr": "Türkçe"
+  },
+  "common": {
+    "cancel": "İptal",
+    "submit": "Gönder",
+    "save": "Kaydet"
+  },
+  "review": {
+    "reviews": "Yorumlar",
+    "totalReviews": "{{count}} yorum",
+    "writeReview": "Yorum Yaz",
+    "rating": "Puanlama",
+    "title": "Yorum Başlığı",
+    "titlePlaceholder": "Yorumunuza bir başlık verin",
+    "comment": "Yorumunuz",
+    "commentPlaceholder": "Bu ürünle ilgili deneyiminizi paylaşın...",
+    "submit": "Yorumu Gönder",
+    "noReviews": "Henüz yorum yok",
+    "noReviewsDescription": "Bu ürün hakkında ilk yorumu siz yazın!",
+    "writeFirstReview": "İlk Yorumu Yaz",
+    "submitted": "Yorumunuz için teşekkürler!",
+    "helpful": "Yararlı"
+  },
+  "errors": {
+    "titleRequired": "Başlık gereklidir",
+    "commentRequired": "Yorum gereklidir",
+    "ratingRequired": "Lütfen bir puan seçin"
+  },
+  "comparison": {
+    "comparing": "Karşılaştırıyorum",
+    "clear": "Temizle",
+    "compare": "Şimdi Karşılaştır",
+    "addMore": "{{count}} ürün daha ekle",
+    "removed": "Ürün karşılaştırmadan kaldırıldı",
+    "added": "Ürün karşılaştırmaya eklendi",
+    "maxItems": "Maksimum 4 ürün karşılaştırılabilir",
+    "minItems": "Karşılaştırmak için en az 2 ürün ekleyin",
+    "title": "Ürün Karşılaştırma",
+    "clearAll": "Tümünü Temizle",
+    "feature": "Özellik",
+    "product": "Ürün",
+    "brand": "Marka",
+    "category": "Kategori",
+    "rating": "Puan",
+    "price": "Fiyat",
+    "availability": "Müsaitlik",
+    "actions": "İşlemler"
+  },
+  "inStock": "Stokta",
+  "outOfStock": "Stokta Yok",
+  "viewDetails": "Detayları Görüntüle",
+  "addedToCart": "Sepete eklendi",
+  "search": {
+    "placeholder": "Ürünler, markalar, kategorilerde ara...",
+    "recentSearches": "Son Aramalar",
+    "trending": "Popüler",
+    "results": "{{count}} sonuç",
+    "noResults": "Sonuç bulunamadı"
+  }
+}
+

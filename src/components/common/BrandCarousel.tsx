@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
 import { motion } from "framer-motion"
@@ -15,8 +15,6 @@ const brands = [
 ]
 
 export function BrandCarousel() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -32,18 +30,6 @@ export function BrandCarousel() {
 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext()
-  }, [emblaApi])
-
-  const scrollTo = useCallback((index: number) => {
-    if (emblaApi) emblaApi.scrollTo(index)
-  }, [emblaApi])
-
-  useEffect(() => {
-    if (!emblaApi) return
-    setSelectedIndex(emblaApi.selectedScrollSnap())
-    emblaApi.on('select', () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap())
-    })
   }, [emblaApi])
 
   return (

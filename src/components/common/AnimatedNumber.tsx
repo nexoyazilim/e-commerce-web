@@ -3,7 +3,6 @@ import { useInView, useMotionValue, useSpring } from "framer-motion"
 
 interface AnimatedNumberProps {
   value: number
-  duration?: number
   className?: string
   prefix?: string
   suffix?: string
@@ -12,7 +11,6 @@ interface AnimatedNumberProps {
 
 export function AnimatedNumber({
   value,
-  duration = 1,
   className = "",
   prefix = "",
   suffix = "",

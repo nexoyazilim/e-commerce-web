@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Heart, Search, Package, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ReactNode, ComponentType, SVGProps } from 'react';
+import { type ReactNode, type ComponentType, type SVGProps } from 'react';
 
 interface EmptyStateProps {
   type?: 'cart' | 'favorites' | 'search' | 'orders';

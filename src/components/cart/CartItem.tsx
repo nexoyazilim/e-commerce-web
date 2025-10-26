@@ -45,7 +45,7 @@ function CartItem({
       handleRemove();
     }
     x.set(0);
-  }, [handleRemove, x]);
+  }, [handleRemove, x, SWIPE_THRESHOLD]);
 
   const increment = useCallback(() => onQuantityChange(quantity + 1), [quantity, onQuantityChange]);
   const decrement = useCallback(() => quantity > 1 && onQuantityChange(quantity - 1), [quantity, onQuantityChange]);

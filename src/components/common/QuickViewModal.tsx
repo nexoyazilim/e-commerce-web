@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { X, Heart, ShoppingCart, Star } from "lucide-react"
+import { AnimatePresence } from "framer-motion"
+import { Heart, ShoppingCart, Star } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -22,10 +22,12 @@ interface QuickViewModalProps {
 export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps) {
   const [selectedImage, setSelectedImage] = useState(0)
   const addItem = useCartStore((state) => state.addItem)
-  const isFavorite = product ? useFavoritesStore((state) => state.isFavorite(product.id)) : false
+  const productIds = useFavoritesStore((state) => state.productIds)
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite)
 
   if (!product) return null
+  
+  const isProductFavorite = productIds.includes(product.id)
 
   const handleAddToCart = () => {
     addItem({
@@ -39,7 +41,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
 
   const handleToggleFavorite = () => {
     toggleFavorite(product.id)
-    toast.success(isFavorite ? "Removed from favorites" : "Added to favorites")
+    toast.success(isProductFavorite ? "Removed from favorites" : "Added to favorites")
   }
 
   const discountPercent = product.oldPrice
@@ -129,7 +131,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                     size="icon"
                     onClick={handleToggleFavorite}
                   >
-                    <Heart className={`h-4 w-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
+                    <Heart className={`h-4 w-4 ${isProductFavorite ? "fill-red-500 text-red-500" : ""}`} />
                   </Button>
                 </div>
               </div>

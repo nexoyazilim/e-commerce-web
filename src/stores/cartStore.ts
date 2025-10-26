@@ -33,14 +33,21 @@ export const useCartStore = create<CartStore>()(
           set({ lastAddedItem: item.productId });
           
           // Use a more robust approach with requestAnimationFrame
-          const timeoutId = window.requestAnimationFrame(() => {
+          if (typeof window !== 'undefined') {
+            const timeoutId = window.requestAnimationFrame(() => {
+              setTimeout(() => {
+                set({ lastAddedItem: null });
+              }, 100);
+            });
+            
+            // Store cleanup function if needed
+            return () => window.cancelAnimationFrame(timeoutId);
+          } else {
+            // Fallback for SSR/test environments
             setTimeout(() => {
               set({ lastAddedItem: null });
             }, 100);
-          });
-          
-          // Store cleanup function if needed
-          return () => window.cancelAnimationFrame(timeoutId);
+          }
         } catch (error) {
           console.error('Error adding item to cart:', error);
           throw error;

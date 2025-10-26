@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { motion, useAnimationControls } from 'framer-motion';
 
 interface FlyToCartProps {

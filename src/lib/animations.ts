@@ -1,4 +1,4 @@
-import { Variants } from "framer-motion"
+import { type Variants } from "framer-motion"
 
 export const fadeInUp: Variants = {
   initial: { opacity: 0, y: 20 },

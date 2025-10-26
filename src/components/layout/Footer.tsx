@@ -1,10 +1,8 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Youtube, Mail, MapPin, Phone } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 export function Footer() {
-  const { t } = useTranslation();
 
   const quickLinks = [
     { label: 'About Us', href: '/about' },
@@ -48,7 +46,7 @@ export function Footer() {
       y: 0,
       transition: {
         duration: 0.5,
-        ease: 'easeOut',
+        ease: 'easeOut' as const,
       },
     },
   };

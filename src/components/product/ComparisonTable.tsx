@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Star, ShoppingCart, Heart } from 'lucide-react';
+import { X, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useComparisonStore } from '@/stores/comparisonStore';
@@ -28,9 +28,6 @@ export function ComparisonTable({ isOpen }: ComparisonTableProps) {
     addItem({
       productId: product.id,
       variantKey: 'default',
-      image: product.images[0],
-      title: product.title,
-      price: product.price,
       color: 'Default',
       size: 'Default',
     });
@@ -124,11 +121,11 @@ export function ComparisonTable({ isOpen }: ComparisonTableProps) {
                             </Link>
                           )}
                           {feature.key === 'brand' && <p>{product.brand}</p>}
-                          {feature.key === 'category' && <p>{product.category}</p>}
+                          {feature.key === 'category' && <p>{product.categoryId}</p>}
                           {feature.key === 'rating' && (
                             <div className="flex items-center justify-center gap-2">
                               <StarRating rating={product.rating} />
-                              <span className="text-sm">({product.reviews})</span>
+                              <span className="text-sm">({product.reviewCount})</span>
                             </div>
                           )}
                           {feature.key === 'price' && (
@@ -142,8 +139,8 @@ export function ComparisonTable({ isOpen }: ComparisonTableProps) {
                             </div>
                           )}
                           {feature.key === 'availability' && (
-                            <Badge variant={product.stock > 0 ? 'default' : 'destructive'}>
-                              {product.stock > 0 ? t('inStock') : t('outOfStock')}
+                            <Badge variant={product.inStock ? 'default' : 'destructive'}>
+                              {product.inStock ? t('inStock') : t('outOfStock')}
                             </Badge>
                           )}
                           {feature.key === 'actions' && (

@@ -88,7 +88,7 @@ export function ReviewSection({ reviewCount }: { reviewCount: number }) {
           <div>
             <div className="mb-4">
               <div className="text-5xl font-bold mb-2">{averageRating.toFixed(1)}</div>
-              <StarRating rating={averageRating} totalStars={5} />
+              <StarRating rating={averageRating} maxRating={5} />
               <p className="text-sm text-muted-foreground mt-2">
                 Based on {reviewCount} reviews
               </p>
@@ -144,9 +144,7 @@ export function ReviewSection({ reviewCount }: { reviewCount: number }) {
             <label className="text-sm font-medium mb-2 block">Rating</label>
             <StarRating
               rating={newReview.rating}
-              totalStars={5}
-              interactive
-              onRatingChange={(rating) => setNewReview({ ...newReview, rating })}
+              maxRating={5}
             />
           </div>
 
@@ -211,7 +209,7 @@ export function ReviewSection({ reviewCount }: { reviewCount: number }) {
                     )}
                   </div>
                   <div className="flex items-center gap-2 mt-1">
-                    <StarRating rating={review.rating} totalStars={5} size="sm" />
+                    <StarRating rating={review.rating} maxRating={5} />
                     <span className="text-sm text-muted-foreground">{review.date}</span>
                   </div>
                 </div>

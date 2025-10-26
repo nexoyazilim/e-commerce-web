@@ -1,4 +1,4 @@
-import { useState, useEffect, type RefObject } from 'react';
+import { useState, useEffect } from 'react';
 
 interface UseIntersectionObserverOptions extends IntersectionObserverInit {
   triggerOnce?: boolean;

@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from 'react';
+import { type ReactNode, useRef } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 interface MagneticButtonProps {
@@ -13,7 +13,6 @@ export function MagneticButton({
   strength = 30 
 }: MagneticButtonProps) {
   const ref = useRef<HTMLButtonElement>(null);
-  const [hovering, setHovering] = useState(false);
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -40,13 +39,12 @@ export function MagneticButton({
   };
 
   const handleMouseLeave = () => {
-    setHovering(false);
     x.set(0);
     y.set(0);
   };
 
   const handleMouseEnter = () => {
-    setHovering(true);
+    // Mouse enter handler
   };
 
   return (

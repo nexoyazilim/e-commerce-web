@@ -16,7 +16,6 @@ import { FilterSidebar } from '@/components/filters/FilterSidebar';
 import { ActiveFilters } from '@/components/filters/ActiveFilters';
 import { ScrollReveal } from '@/components/common/ScrollReveal';
 import { Breadcrumb } from '@/components/common/Breadcrumb';
-import { Skeleton } from '@/components/ui/skeleton';
 import productsData from '@/data/products.json';
 import type { Product } from '@/types';
 import { useFilterStore } from '@/stores/filterStore';

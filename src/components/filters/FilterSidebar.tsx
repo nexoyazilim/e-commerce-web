@@ -150,21 +150,21 @@ export function FilterSidebar({ brands, colors, sizes, maxPrice }: FilterSidebar
                 onClick={() => handleRatingChange(4)}
                 className="flex items-center gap-2 w-full text-left hover:bg-muted p-2 rounded"
               >
-                <StarRating rating={filterStore.rating >= 4 ? 4 : 0} totalStars={4} />
+                <StarRating rating={filterStore.rating >= 4 ? 4 : 0} maxRating={4} />
                 <span className="text-sm">& Up</span>
               </button>
               <button
                 onClick={() => handleRatingChange(3)}
                 className="flex items-center gap-2 w-full text-left hover:bg-muted p-2 rounded"
               >
-                <StarRating rating={filterStore.rating >= 3 ? 3 : 0} totalStars={3} />
+                <StarRating rating={filterStore.rating >= 3 ? 3 : 0} maxRating={3} />
                 <span className="text-sm">& Up</span>
               </button>
               <button
                 onClick={() => handleRatingChange(2)}
                 className="flex items-center gap-2 w-full text-left hover:bg-muted p-2 rounded"
               >
-                <StarRating rating={filterStore.rating >= 2 ? 2 : 0} totalStars={2} />
+                <StarRating rating={filterStore.rating >= 2 ? 2 : 0} maxRating={2} />
                 <span className="text-sm">& Up</span>
               </button>
             </div>

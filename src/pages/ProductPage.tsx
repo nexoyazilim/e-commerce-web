@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, ShoppingCart, Share2, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Heart, ShoppingCart, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ProductGallery } from '@/components/product/ProductGallery';
 import { VariantSelector } from '@/components/product/VariantSelector';

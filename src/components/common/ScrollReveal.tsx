@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef, ReactNode } from "react"
+import { useRef, type ReactNode } from "react"
 
 interface ScrollRevealProps {
   children: ReactNode
@@ -11,7 +11,7 @@ interface ScrollRevealProps {
 
 export function ScrollReveal({ children, delay = 0, className = "", variant = "fadeUp" }: ScrollRevealProps) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, threshold: 0.1 })
+  const isInView = useInView(ref, { once: true })
 
   const variants = {
     fadeUp: {

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ProductCard } from './ProductCard';
 import type { Product } from '@/types';
@@ -11,16 +11,14 @@ const mockProduct: Product = {
   price: 999,
   oldPrice: 1299,
   rating: 4.5,
-  reviews: 10,
-  stock: 100,
+  reviewCount: 10,
   brand: 'Test Brand',
-  category: 'Test Category',
+  categoryId: 'test-category',
+  inStock: true,
   images: ['https://via.placeholder.com/300'],
   badges: ['New'],
-  variants: {
-    color: ['Red', 'Blue'],
-    size: ['S', 'M', 'L'],
-  },
+  colors: ['Red', 'Blue'],
+  sizes: ['S', 'M', 'L'],
 };
 
 describe('ProductCard', () => {

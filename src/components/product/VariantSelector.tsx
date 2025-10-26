@@ -1,7 +1,6 @@
 import { motion } from "framer-motion"
 import { ColorSwatch } from "@/components/common/ColorSwatch"
 import { QuantitySelector } from "@/components/common/QuantitySelector"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
 interface VariantSelectorProps {

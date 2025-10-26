@@ -1,10 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
-import { useMotionValue, useSpring, type MotionValue } from 'framer-motion';
-
-interface Rotation {
-  rotateX: number;
-  rotateY: number;
-}
+import { useMotionValue, useSpring } from 'framer-motion';
 
 interface Use3DCardOptions {
   maxRotation?: number;

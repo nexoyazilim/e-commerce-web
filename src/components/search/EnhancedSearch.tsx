@@ -27,7 +27,6 @@ export function EnhancedSearch({ onClose }: EnhancedSearchProps) {
   const addToHistory = useSearchStore((state) => state.addToHistory);
   const recentSearches = useSearchStore((state) => state.getRecentSearches(5));
   const trending = useSearchStore((state) => state.trending);
-  const removeFromHistory = useSearchStore((state) => state.removeFromHistory);
 
   const products = productsData as Product[];
 
@@ -37,7 +36,7 @@ export function EnhancedSearch({ onClose }: EnhancedSearchProps) {
         (product) =>
           product.title.toLowerCase().includes(query.toLowerCase()) ||
           product.brand.toLowerCase().includes(query.toLowerCase()) ||
-          product.category.toLowerCase().includes(query.toLowerCase())
+          product.categoryId.toLowerCase().includes(query.toLowerCase())
       );
       setResults(searchResults.slice(0, 8));
       setShowDropdown(true);
@@ -71,16 +70,12 @@ export function EnhancedSearch({ onClose }: EnhancedSearchProps) {
   };
 
   const handleVoiceSearch = () => {
-    interface WebkitSpeechRecognition extends SpeechRecognition {
-      start(): void;
-    }
-    
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognitionConstructor = 
-        (window as typeof window & { webkitSpeechRecognition: new () => SpeechRecognition }).webkitSpeechRecognition ||
-        (window as typeof window & { SpeechRecognition: new () => SpeechRecognition }).SpeechRecognition;
+        (window as any).webkitSpeechRecognition || 
+        (window as any).SpeechRecognition;
       
-      const recognition = new SpeechRecognitionConstructor() as WebkitSpeechRecognition;
+      const recognition = new SpeechRecognitionConstructor();
       recognition.continuous = false;
       recognition.interimResults = false;
       
@@ -88,7 +83,7 @@ export function EnhancedSearch({ onClose }: EnhancedSearchProps) {
         setIsListening(true);
       };
       
-      recognition.onresult = (event: SpeechRecognitionEvent) => {
+      recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
         setQuery(transcript);
         recognition.stop();

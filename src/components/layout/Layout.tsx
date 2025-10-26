@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import { useProductComparison } from '@/hooks/useProductComparison';
 
 export function Layout() {
-  const { isOpen, closeComparison } = useProductComparison();
+  const { isOpen } = useProductComparison();
   
   return (
     <div className="min-h-screen bg-background">

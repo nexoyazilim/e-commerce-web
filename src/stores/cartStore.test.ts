@@ -13,9 +13,6 @@ describe('CartStore', () => {
     addItem({
       productId: '1',
       variantKey: 'default',
-      image: 'test.jpg',
-      title: 'Test Product',
-      price: 100,
       color: 'Red',
       size: 'M',
     });
@@ -31,9 +28,6 @@ describe('CartStore', () => {
     addItem({
       productId: '1',
       variantKey: 'default',
-      image: 'test.jpg',
-      title: 'Test Product',
-      price: 100,
       color: 'Red',
       size: 'M',
     });
@@ -41,9 +35,6 @@ describe('CartStore', () => {
     addItem({
       productId: '1',
       variantKey: 'default',
-      image: 'test.jpg',
-      title: 'Test Product',
-      price: 100,
       color: 'Red',
       size: 'M',
     });
@@ -60,9 +51,6 @@ describe('CartStore', () => {
     addItem({
       productId: '1',
       variantKey: 'default',
-      image: 'test.jpg',
-      title: 'Test Product',
-      price: 100,
       color: 'Red',
       size: 'M',
     });
@@ -80,9 +68,6 @@ describe('CartStore', () => {
     addItem({
       productId: '1',
       variantKey: 'default',
-      image: 'test.jpg',
-      title: 'Test Product',
-      price: 100,
       color: 'Red',
       size: 'M',
     });
@@ -90,9 +75,6 @@ describe('CartStore', () => {
     addItem({
       productId: '1',
       variantKey: 'default',
-      image: 'test.jpg',
-      title: 'Test Product',
-      price: 100,
       color: 'Red',
       size: 'M',
     });

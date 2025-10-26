@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useScroll, useTransform, type MotionValue } from 'framer-motion';
 
-interface UseParallaxOptions {
-  speed?: number;
-  offset?: [string, string];
-}
-
 export const useParallax = (speed: number = 0.5) => {
   const [offset, setOffset] = useState(0);
 

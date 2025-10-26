@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { ZoomIn as ZoomIcon } from "lucide-react"
-import { ImageWithZoom } from "@/components/common/ImageWithZoom"
 import { Badge } from "@/components/ui/badge"
 
 interface ProductGalleryProps {

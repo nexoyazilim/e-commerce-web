@@ -53,7 +53,7 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/e-commerce-web">
           <ScrollToTop />
           <AppRoutes />
         </BrowserRouter>

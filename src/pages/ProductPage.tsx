@@ -240,7 +240,7 @@ export function ProductPage() {
           </TabsContent>
 
           <TabsContent value="reviews" className="mt-6">
-            <ReviewSection reviewCount={product.reviewCount} />
+            <ReviewSection productId={product.id} />
           </TabsContent>
 
           <TabsContent value="shipping" className="mt-6">
@@ -279,11 +279,6 @@ export function ProductPage() {
           </div>
         </div>
       )}
-
-      {/* Reviews Section */}
-      <div className="mt-16">
-        <ReviewSection productId={product.id} />
-      </div>
     </div>
   );
 }

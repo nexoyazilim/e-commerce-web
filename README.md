@@ -45,7 +45,7 @@ npm install
 npm run dev
 ```
 
-Visit http://localhost:5173
+Visit <http://localhost:5173>
 
 ### Build
 
@@ -61,7 +61,7 @@ npm run preview
 
 ## Project Structure
 
-```
+```text
 src/
 ├── components/     # Reusable components
 │   ├── layout/     # Header, Layout
@@ -164,6 +164,7 @@ This project includes a complete CI/CD pipeline using GitHub Actions.
 The pipeline automatically deploys on push to `main`. Configure your deployment platform:
 
 **Vercel** (Recommended):
+
 ```bash
 # Add to GitHub Secrets:
 VERCEL_TOKEN
@@ -172,6 +173,7 @@ VERCEL_PROJECT_ID
 ```
 
 **Netlify**:
+
 ```bash
 # Add to GitHub Secrets:
 NETLIFY_AUTH_TOKEN

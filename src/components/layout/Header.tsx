@@ -112,7 +112,8 @@ export function Header() {
     if (langParam && ['en', 'tr'].includes(langParam)) {
       i18n.changeLanguage(langParam);
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // i18n is intentionally omitted - should only run once on mount
 
   return (
     <>

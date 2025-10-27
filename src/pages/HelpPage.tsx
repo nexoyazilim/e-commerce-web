@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { HelpCircle, MessageSquare, Mail, Phone, MessageCircle } from 'lucide-react';
+import { HelpCircle, Mail, Phone, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Ruler, Shirt, Shoe } from 'lucide-react';
+import { Ruler, Shirt, Footprints } from 'lucide-react';
 
 export function SizeGuidePage() {
   return (
@@ -69,7 +69,7 @@ export function SizeGuidePage() {
             transition={{ delay: 0.2 }}
             className="rounded-lg border bg-card p-6"
           >
-            <Shoe className="mb-4 h-12 w-12 text-primary" />
+            <Footprints className="mb-4 h-12 w-12 text-primary" />
             <h2 className="mb-4 text-2xl font-bold">Shoe Sizes</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">

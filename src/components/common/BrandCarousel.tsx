@@ -4,6 +4,7 @@ import Autoplay from "embla-carousel-autoplay"
 import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { OptimizedImage } from "./OptimizedImage"
 
 const brands = [
   { name: "AudioTech", logo: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" },
@@ -58,7 +59,7 @@ export function BrandCarousel() {
                     whileHover={{ scale: 1.05 }}
                     className="bg-card rounded-lg border p-4 h-24 flex items-center justify-center"
                   >
-                    <img
+                    <OptimizedImage
                       src={brand.logo}
                       alt={brand.name}
                       className="max-h-12 max-w-24 object-contain grayscale hover:grayscale-0 transition-all"

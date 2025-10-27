@@ -91,6 +91,17 @@ if (typeof window !== 'undefined') {
   });
 }
 
+// Mock IntersectionObserver for OptimizedImage component
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  takeRecords() {
+    return [];
+  }
+  unobserve() {}
+} as unknown as typeof IntersectionObserver;
+
 // Cleanup after each test
 afterEach(() => {
   cleanup();

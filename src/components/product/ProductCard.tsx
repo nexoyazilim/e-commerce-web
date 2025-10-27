@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Heart, ShoppingCart } from 'lucide-react';
@@ -8,6 +8,7 @@ import { useCartStore } from '@/stores/cartStore';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { hasAvailableVariants, getDefaultColor, getDefaultSize, createVariantKey, calculateDiscount } from '@/lib/product-utils';
+import { OptimizedImage } from '@/components/common/OptimizedImage';
 
 interface ProductCardProps {
   product: Product;
@@ -15,7 +16,6 @@ interface ProductCardProps {
 
 export const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
   const { t } = useTranslation();
-  const [imageLoaded, setImageLoaded] = useState(false);
   const isFavorite = useFavoritesStore((state) => state.isFavorite(product.id));
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   const addItem = useCartStore((state) => state.addItem);
@@ -63,19 +63,18 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
       <div className="relative h-full overflow-hidden rounded-lg border bg-card transition-all duration-300 hover:shadow-2xl">
         <Link to={`/product/${product.slug}`} className="block">
           <div className="relative aspect-square bg-muted">
-            {!imageLoaded && (
-              <div className="absolute inset-0 animate-pulse bg-muted-foreground/20" />
-            )}
-            <motion.img
-              src={product.images[0]}
-              alt={product.title}
-              className={`h-full w-full object-cover transition-transform duration-300 ${
-                imageLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
-              onLoad={() => setImageLoaded(true)}
+            <motion.div
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.3 }}
-            />
+              className="h-full w-full"
+            >
+              <OptimizedImage
+                src={product.images[0]}
+                alt={product.title}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </motion.div>
             {product.badges && product.badges.length > 0 && (
               <div className="absolute left-2 top-2 flex flex-col gap-1">
                 {product.badges.map((badge) => (

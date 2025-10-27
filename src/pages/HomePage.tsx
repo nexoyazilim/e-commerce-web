@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
 import productsData from '@/data/products.json';
 import type { Product } from '@/types';
+import { OptimizedImage } from '@/components/common/OptimizedImage';
 
 export function HomePage() {
   const products = productsData as Product[];
@@ -176,10 +177,11 @@ export function HomePage() {
                     whileHover={{ scale: 1.02 }}
                     className="relative overflow-hidden rounded-lg h-64"
                   >
-                    <img
+                    <OptimizedImage
                       src={banner.image}
                       alt={banner.title}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
                       <div className="text-white">

@@ -41,7 +41,8 @@ describe('ProductCard', () => {
     render(<ProductCard product={mockProduct} />);
     const image = screen.getByAltText('Test Product');
     expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', 'https://via.placeholder.com/300');
+    // OptimizedImage uses data-src for lazy loading
+    expect(image).toHaveAttribute('data-src', 'https://via.placeholder.com/300');
   });
 });
 

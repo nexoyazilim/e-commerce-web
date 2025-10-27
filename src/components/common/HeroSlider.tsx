@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 import { Link } from 'react-router-dom';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { OptimizedImage } from './OptimizedImage';
 
 interface Slide {
   id: string;
@@ -66,17 +67,18 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }: HeroSliderProps)
   return (
     <div className="relative overflow-hidden" ref={emblaRef}>
       <div className="flex">
-        {slides.map((slide) => (
+        {slides.map((slide, index) => (
           <div key={slide.id} className="min-w-0 flex-shrink-0 flex-grow-0 basis-full">
             <div className="relative h-[500px] md:h-[600px] overflow-hidden">
               {/* Parallax Background Image with Ken Burns Effect */}
               {prefersReducedMotion ? (
                 <div className="absolute inset-0">
-                  <img
+                  <OptimizedImage
                     src={slide.image}
                     alt={slide.title}
                     className="h-full w-full object-cover"
-                    loading="lazy"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    priority={index === 0}
                   />
                 </div>
               ) : (
@@ -86,11 +88,12 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }: HeroSliderProps)
                   transition={{ duration: 20, ease: 'linear' }}
                   className="absolute inset-0"
                 >
-                  <img
+                  <OptimizedImage
                     src={slide.image}
                     alt={slide.title}
                     className="h-full w-full object-cover"
-                    loading="lazy"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    priority={index === 0}
                   />
                 </motion.div>
               )}

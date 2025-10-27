@@ -19,6 +19,7 @@ import { toast } from 'react-hot-toast';
 import productsData from '@/data/products.json';
 import type { Product } from '@/types';
 import { getDefaultColor, getDefaultSize, hasAvailableVariants, calculateDiscount } from '@/lib/product-utils';
+import { OptimizedImage } from '@/components/common/OptimizedImage';
 
 export function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -269,10 +270,11 @@ export function ProductPage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {similarProducts.map((item) => (
               <Link key={item.id} to={`/product/${item.slug}`}>
-                <img
+                <OptimizedImage
                   src={item.images[0]}
                   alt={item.title}
                   className="w-full h-64 object-cover rounded-lg"
+                  loading="lazy"
                 />
               </Link>
             ))}

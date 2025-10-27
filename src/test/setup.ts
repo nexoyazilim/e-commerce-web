@@ -92,15 +92,19 @@ if (typeof window !== 'undefined') {
 }
 
 // Mock IntersectionObserver for OptimizedImage component
-global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
-  disconnect() {}
-  observe() {}
-  takeRecords() {
-    return [];
-  }
-  unobserve() {}
-} as unknown as typeof IntersectionObserver;
+Object.defineProperty(window, 'IntersectionObserver', {
+  writable: true,
+  configurable: true,
+  value: class IntersectionObserver {
+    constructor() {}
+    disconnect() {}
+    observe() {}
+    takeRecords() {
+      return [];
+    }
+    unobserve() {}
+  },
+});
 
 // Cleanup after each test
 afterEach(() => {

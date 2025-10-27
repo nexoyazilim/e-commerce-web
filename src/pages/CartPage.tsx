@@ -70,37 +70,34 @@ export function CartPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
+      <div className="mb-8 animate-fade-in-up">
         <h1 className="text-3xl font-bold tracking-tight">Shopping Cart</h1>
         <p className="text-muted-foreground">{items.length} items in your cart</p>
-      </motion.div>
+      </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <div className="space-y-4">
-            {cartProducts.map((item, index) => (
-              <motion.div
-                key={`${item.id}-${item.cartItem.variantKey}`}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <CartItem
-                  product={item}
-                  color={item.cartItem.color}
-                  size={item.cartItem.size}
-                  quantity={item.cartItem.quantity}
-                  onQuantityChange={(quantity) =>
-                    handleQuantityChange(item.id, item.cartItem.variantKey, quantity)
-                  }
-                  onRemove={() => handleRemove(item.id, item.cartItem.variantKey)}
-                />
-              </motion.div>
-            ))}
+            {cartProducts.map((item, index) => {
+              const staggerClass = `stagger-${(index % 5) + 1}`;
+              return (
+                <div
+                  key={`${item.id}-${item.cartItem.variantKey}`}
+                  className={`animate-fade-in-up ${staggerClass}`}
+                >
+                  <CartItem
+                    product={item}
+                    color={item.cartItem.color}
+                    size={item.cartItem.size}
+                    quantity={item.cartItem.quantity}
+                    onQuantityChange={(quantity) =>
+                      handleQuantityChange(item.id, item.cartItem.variantKey, quantity)
+                    }
+                    onRemove={() => handleRemove(item.id, item.cartItem.variantKey)}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 

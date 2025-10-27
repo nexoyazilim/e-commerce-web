@@ -97,34 +97,28 @@ export function HomePage() {
       {/* Categories Section */}
       <section id="categories" className="py-16">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-12 text-center"
-          >
+          <div className="mb-12 text-center animate-fade-in-up">
             <h2 className="mb-4 text-3xl font-bold tracking-tight">Shop by Category</h2>
             <p className="text-muted-foreground">Find what you're looking for</p>
-          </motion.div>
+          </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-            {categories.map((category, i) => (
-              <motion.div
-                key={category.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <Link
-                  to={`/category/${category.slug}`}
-                  className="group flex flex-col items-center rounded-lg border bg-card p-4 text-center transition-all hover:shadow-md"
+            {categories.map((category, i) => {
+              const staggerClass = `stagger-${(i % 5) + 1}`;
+              return (
+                <div
+                  key={category.name}
+                  className={`animate-fade-in-scale ${staggerClass} transition-transform hover:scale-105`}
                 >
-                  <category.icon className="mx-auto mb-2 h-8 w-8 text-primary" />
-                  <span className="text-sm font-medium">{category.name}</span>
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    to={`/category/${category.slug}`}
+                    className="group flex flex-col items-center rounded-lg border bg-card p-4 text-center transition-all hover:shadow-md"
+                  >
+                    <category.icon className="mx-auto mb-2 h-8 w-8 text-primary" />
+                    <span className="text-sm font-medium">{category.name}</span>
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -216,22 +210,21 @@ export function HomePage() {
               { icon: Shield, title: 'Secure Payment', description: '100% secure transactions' },
               { icon: Award, title: 'Quality Guarantee', description: 'Premium quality products' },
               { icon: ShoppingBag, title: 'Easy Returns', description: '30-day return policy' },
-            ].map((feature, i) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex flex-col items-center text-center"
-              >
-                <div className="mb-4 rounded-full bg-primary/10 p-4">
-                  <feature.icon className="h-8 w-8 text-primary" />
+            ].map((feature, i) => {
+              const staggerClass = `stagger-${(i % 5) + 1}`;
+              return (
+                <div
+                  key={feature.title}
+                  className={`flex flex-col items-center text-center animate-fade-in-up ${staggerClass}`}
+                >
+                  <div className="mb-4 rounded-full bg-primary/10 p-4">
+                    <feature.icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="mb-2 font-semibold">{feature.title}</h3>
+                  <p className="text-sm text-muted-foreground">{feature.description}</p>
                 </div>
-                <h3 className="mb-2 font-semibold">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

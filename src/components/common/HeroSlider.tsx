@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 import { Link } from 'react-router-dom';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 interface Slide {
   id: string;
@@ -21,6 +22,7 @@ interface HeroSliderProps {
 }
 
 export function HeroSlider({ slides, autoPlayInterval = 5000 }: HeroSliderProps) {
+  const prefersReducedMotion = usePrefersReducedMotion();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
@@ -68,47 +70,59 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }: HeroSliderProps)
           <div key={slide.id} className="min-w-0 flex-shrink-0 flex-grow-0 basis-full">
             <div className="relative h-[500px] md:h-[600px] overflow-hidden">
               {/* Parallax Background Image with Ken Burns Effect */}
-              <motion.div
-                initial={{ scale: 1 }}
-                animate={{ scale: 1.1 }}
-                transition={{ duration: 20, ease: 'linear' }}
-                className="absolute inset-0"
-              >
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </motion.div>
+              {prefersReducedMotion ? (
+                <div className="absolute inset-0">
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              ) : (
+                <motion.div
+                  initial={{ scale: 1 }}
+                  animate={{ scale: 1.1 }}
+                  transition={{ duration: 20, ease: 'linear' }}
+                  className="absolute inset-0"
+                >
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </motion.div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
               
               {/* Floating Elements */}
-              <div className="absolute inset-0">
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute rounded-full bg-white/10 blur-xl"
-                    style={{
-                      width: `${100 + i * 50}px`,
-                      height: `${100 + i * 50}px`,
-                      left: `${20 + i * 30}%`,
-                      top: `${30 + i * 20}%`,
-                    }}
-                    animate={{
-                      y: [0, -30, 0],
-                      x: [0, 20, 0],
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      duration: 5 + i * 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      delay: i * 0.5,
-                    }}
-                  />
-                ))}
-              </div>
+              {!prefersReducedMotion && (
+                <div className="absolute inset-0">
+                  {[...Array(1)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute rounded-full bg-white/10 blur-xl"
+                      style={{
+                        width: '150px',
+                        height: '150px',
+                        left: '20%',
+                        top: '30%',
+                      }}
+                      animate={{
+                        y: [0, -30, 0],
+                        x: [0, 20, 0],
+                        scale: [1, 1.2, 1],
+                      }}
+                      transition={{
+                        duration: 7,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
 
               <div className="container relative z-10 mx-auto flex h-full items-center px-4">
                 <motion.div
@@ -117,28 +131,14 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }: HeroSliderProps)
                   transition={{ duration: 0.8 }}
                   className="max-w-2xl text-white"
                 >
-                  {/* Text Reveal Animation - Character by Character Effect */}
+                  {/* Text Reveal Animation - Simple slide-in */}
                   <motion.h2
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
                     className="mb-4 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
                   >
-                    {slide.title.split('').map((char, index) => (
-                      <motion.span
-                        key={index}
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          delay: 0.1 + index * 0.03,
-                          duration: 0.3,
-                        }}
-                        className="inline-block"
-                        style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
-                      >
-                        {char}
-                      </motion.span>
-                    ))}
+                    {slide.title}
                   </motion.h2>
                   
                   <motion.p

@@ -1,6 +1,6 @@
 import { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Heart, ShoppingCart } from 'lucide-react';
 import type { Product } from '@/types';
 import { useFavoritesStore } from '@/stores/favoritesStore';
@@ -16,33 +16,9 @@ interface ProductCardProps {
 export const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
   const { t } = useTranslation();
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const isFavorite = useFavoritesStore((state) => state.isFavorite(product.id));
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   const addItem = useCartStore((state) => state.addItem);
-
-  // 3D card effects
-  const rotateX = useMotionValue(0);
-  const rotateY = useMotionValue(0);
-  const springX = useSpring(rotateX, { stiffness: 300, damping: 30 });
-  const springY = useSpring(rotateY, { stiffness: 300, damping: 30 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isHovering) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const deltaX = (centerX - e.clientX) / rect.width;
-    const deltaY = (centerY - e.clientY) / rect.height;
-    rotateX.set(deltaY * 20);
-    rotateY.set(deltaX * 20);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    rotateX.set(0);
-    rotateY.set(0);
-  };
 
   const handleAddToCart = () => {
     // Validate that product has available variants
@@ -76,10 +52,6 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
 
   const discountPercent = calculateDiscount(product.price, product.oldPrice);
 
-  // Badge animations
-  const isNewBadge = product.badges?.includes('New');
-  const isSaleBadge = product.badges?.includes('Sale');
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -87,18 +59,8 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
       viewport={{ once: true }}
       transition={{ duration: 0.3 }}
       className="group relative"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
     >
-      <motion.div
-        style={{
-          rotateX: springX,
-          rotateY: springY,
-          transformStyle: 'preserve-3d',
-        }}
-        className="relative h-full overflow-hidden rounded-lg border bg-card transition-all duration-300 hover:shadow-2xl"
-      >
+      <div className="relative h-full overflow-hidden rounded-lg border bg-card transition-all duration-300 hover:shadow-2xl">
         <Link to={`/product/${product.slug}`} className="block">
           <div className="relative aspect-square bg-muted">
             {!imageLoaded && (
@@ -116,62 +78,24 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
             />
             {product.badges && product.badges.length > 0 && (
               <div className="absolute left-2 top-2 flex flex-col gap-1">
-                {product.badges.map((badge) => {
-                  const isNew = isNewBadge && badge === 'New';
-                  return (
-                    <motion.span
-                      key={badge}
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={
-                        isNew
-                          ? {
-                              scale: [1, 1.05, 1],
-                              opacity: [1, 0.8, 1],
-                            }
-                          : { scale: 1, opacity: 1 }
-                      }
-                      transition={
-                        isNew
-                          ? {
-                              duration: 2,
-                              repeat: Infinity,
-                              ease: 'easeInOut',
-                            }
-                          : { delay: 0.2, type: 'spring', stiffness: 200 }
-                      }
-                      className="rounded bg-primary px-2 py-1 text-xs font-bold text-primary-foreground shadow-lg"
-                    >
-                      {badge}
-                    </motion.span>
-                  );
-                })}
+                {product.badges.map((badge) => (
+                  <motion.span
+                    key={badge}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+                    className="rounded bg-primary px-2 py-1 text-xs font-bold text-primary-foreground shadow-lg"
+                  >
+                    {badge}
+                  </motion.span>
+                ))}
               </div>
             )}
             {discountPercent > 0 && (
               <motion.span
                 initial={{ scale: 0, opacity: 0 }}
-                animate={
-                  isSaleBadge
-                    ? {
-                        scale: 1,
-                        opacity: 1,
-                        boxShadow: [
-                          '0 0 0 0 rgba(239, 68, 68, 0.7)',
-                          '0 0 0 10px rgba(239, 68, 68, 0)',
-                          '0 0 0 0 rgba(239, 68, 68, 0)',
-                        ],
-                      }
-                    : { scale: 1, opacity: 1 }
-                }
-                transition={
-                  isSaleBadge
-                    ? {
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }
-                    : { delay: 0.3, type: 'spring', stiffness: 200 }
-                }
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
                 className="absolute right-2 top-2 rounded bg-destructive px-2 py-1 text-xs font-bold text-destructive-foreground shadow-lg"
               >
                 -{discountPercent}%
@@ -221,14 +145,9 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
 
           <div className="flex items-center justify-between">
             <div className="flex items-baseline gap-2">
-              <motion.span
-                key={product.price}
-                initial={{ scale: 1 }}
-                animate={{ scale: [1, 1.1, 1] }}
-                className="text-lg font-bold"
-              >
+              <span className="text-lg font-bold">
                 {product.price}₺
-              </motion.span>
+              </span>
               {product.oldPrice && (
                 <span className="text-sm text-muted-foreground line-through">{product.oldPrice}₺</span>
               )}
@@ -255,7 +174,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
             </motion.button>
           </motion.div>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 });

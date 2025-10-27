@@ -9,7 +9,7 @@ interface ProductsStore {
   getProductBySlug: (slug: string) => Product | undefined;
 }
 
-export const useProductsStore = create<ProductsStore>()((set, get) => {
+export const useProductsStore = create<ProductsStore>()((_set, get) => {
   const products = productsData as Product[];
   const productsMap = new Map(products.map(p => [p.id, p]));
   

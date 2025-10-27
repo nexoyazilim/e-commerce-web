@@ -16,7 +16,6 @@ import { useCartStore } from '@/stores/cartStore';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 import { toast } from 'react-hot-toast';
 import { useProductsStore } from '@/stores/productsStore';
-import type { Product } from '@/types';
 import { getDefaultColor, getDefaultSize, hasAvailableVariants, calculateDiscount } from '@/lib/product-utils';
 import { OptimizedImage } from '@/components/common/OptimizedImage';
 
@@ -25,6 +24,7 @@ const ConfettiEffect = lazy(() => import('@/components/common/ConfettiEffect').t
 export function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
   const getProductBySlug = useProductsStore((state) => state.getProductBySlug);
+  const products = useProductsStore((state) => state.products);
   const product = getProductBySlug(slug || '');
   
   const [selectedColor, setSelectedColor] = useState('');
@@ -92,7 +92,7 @@ export function ProductPage() {
     { label: product.title, href: `/product/${product.slug}` },
   ];
 
-  const similarProducts = (productsData as Product[])
+  const similarProducts = products
     .filter((p) => p.id !== product.id && p.categoryId === product.categoryId)
     .slice(0, 4);
 

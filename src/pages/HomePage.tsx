@@ -1,6 +1,6 @@
 import { lazy, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Award, Shield, Truck } from 'lucide-react';
+import { ShoppingBag, Award, Shield, Truck, Laptop, Shirt, Footprints, House, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ProductCard } from '@/components/product/ProductCard';
 import { HeroSlider } from '@/components/common/HeroSlider';
@@ -23,12 +23,12 @@ export function HomePage() {
   const discountedProducts = products.filter(p => p.oldPrice).slice(0, 6);
 
   const categories = [
-    { name: 'Electronics', icon: ShoppingBag, slug: 'electronics' },
-    { name: 'Clothing', icon: ShoppingBag, slug: 'clothing' },
-    { name: 'Shoes', icon: ShoppingBag, slug: 'shoes' },
+    { name: 'Electronics', icon: Laptop, slug: 'electronics' },
+    { name: 'Clothing', icon: Shirt, slug: 'clothing' },
+    { name: 'Shoes', icon: Footprints, slug: 'shoes' },
     { name: 'Bags', icon: ShoppingBag, slug: 'bags' },
-    { name: 'Home', icon: ShoppingBag, slug: 'home' },
-    { name: 'Accessories', icon: ShoppingBag, slug: 'accessories' },
+    { name: 'Home', icon: House, slug: 'home' },
+    { name: 'Accessories', icon: Sparkles, slug: 'accessories' },
   ];
 
   const banners = [

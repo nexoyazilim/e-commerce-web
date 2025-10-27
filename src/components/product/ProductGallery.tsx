@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { ZoomIn as ZoomIcon } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ZoomIn as ZoomIcon, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 interface ProductGalleryProps {
   images: string[]
@@ -12,6 +13,7 @@ interface ProductGalleryProps {
 
 export function ProductGallery({ images, title, badges, discountPercent }: ProductGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [showZoomModal, setShowZoomModal] = useState(false)
 
   return (
     <div className="space-y-4">
@@ -28,7 +30,7 @@ export function ProductGallery({ images, title, badges, discountPercent }: Produ
           )}
         </div>
         
-        <div className="group relative">
+        <div className="group relative cursor-pointer" onClick={() => setShowZoomModal(true)}>
           <img
             src={images[selectedIndex] || images[0]}
             alt={title}
@@ -38,6 +40,41 @@ export function ProductGallery({ images, title, badges, discountPercent }: Produ
             <ZoomIcon className="h-5 w-5" />
           </div>
         </div>
+
+        {/* Zoom Modal */}
+        <AnimatePresence>
+          {showZoomModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+              onClick={() => setShowZoomModal(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.8 }}
+                className="relative max-w-7xl max-h-[90vh] p-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute top-6 right-6 z-10 text-white hover:bg-white/20"
+                  onClick={() => setShowZoomModal(false)}
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+                <img
+                  src={images[selectedIndex] || images[0]}
+                  alt={title}
+                  className="max-h-[90vh] w-auto object-contain rounded-lg"
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Thumbnails */}

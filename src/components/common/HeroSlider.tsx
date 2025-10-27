@@ -127,12 +127,12 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }: HeroSliderProps)
                 </div>
               )}
 
-              <div className="container relative z-10 mx-auto flex h-full items-center px-4">
+              <div className="container relative z-10 mx-auto flex h-full items-center px-4 md:px-6">
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8 }}
-                  className="max-w-2xl text-white"
+                  className="max-w-2xl text-white px-2 sm:px-0"
                 >
                   {/* Text Reveal Animation - Simple slide-in */}
                   <motion.h2
@@ -186,20 +186,20 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }: HeroSliderProps)
       <Button
         variant="ghost"
         size="icon"
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white bg-black/30 hover:bg-black/50 backdrop-blur-sm"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 text-white bg-black/30 hover:bg-black/50 backdrop-blur-sm"
         onClick={scrollPrev}
         aria-label="Previous slide"
       >
-        <ChevronLeft className="h-6 w-6" />
+        <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
       </Button>
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white bg-black/30 hover:bg-black/50 backdrop-blur-sm"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 text-white bg-black/30 hover:bg-black/50 backdrop-blur-sm"
         onClick={scrollNext}
         aria-label="Next slide"
       >
-        <ChevronRight className="h-6 w-6" />
+        <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
       </Button>
 
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">

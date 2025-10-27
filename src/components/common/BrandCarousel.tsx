@@ -47,7 +47,7 @@ export function BrandCarousel() {
         </motion.div>
         
         <div className="relative" ref={emblaRef}>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden px-4">
             <div className="flex">
               {brands.map((brand, index) => (
                 <div key={index} className="flex-shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6 px-2">
@@ -57,12 +57,12 @@ export function BrandCarousel() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ scale: 1.05 }}
-                    className="bg-card rounded-lg border p-4 h-24 flex items-center justify-center"
+                    className="bg-card rounded-lg border p-2 h-24 flex items-center justify-center"
                   >
                     <OptimizedImage
                       src={brand.logo}
                       alt={brand.name}
-                      className="max-h-12 max-w-24 object-contain grayscale hover:grayscale-0 transition-all"
+                      className="h-full w-full object-cover rounded grayscale hover:grayscale-0 transition-all"
                       loading="lazy"
                     />
                   </motion.div>

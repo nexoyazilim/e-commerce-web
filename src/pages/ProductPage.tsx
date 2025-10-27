@@ -71,9 +71,9 @@ export function ProductPage() {
         variantKey: `${selectedColor}-${selectedSize}`,
         color: selectedColor,
         size: selectedSize,
-      });
+      }, quantity);
       setShowConfetti(true);
-      toast.success('Added to cart!');
+      toast.success(`Added ${quantity} item${quantity > 1 ? 's' : ''} to cart!`);
       setTimeout(() => setShowConfetti(false), 1000);
     } catch (error) {
       console.error('Error adding item to cart:', error);

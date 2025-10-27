@@ -7,7 +7,7 @@ import type { CartItem } from '@/types';
 interface CartStore {
   items: CartItem[];
   lastAddedItem: string | null;
-  addItem: (item: Omit<CartItem, 'quantity'>) => void;
+  addItem: (item: Omit<CartItem, 'quantity'>, quantity?: number) => void;
   removeItem: (productId: string, variantKey: string) => void;
   updateQuantity: (productId: string, variantKey: string, quantity: number) => void;
   clearCart: () => void;
@@ -21,15 +21,15 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       items: [],
       lastAddedItem: null,
-      addItem: (item) => {
+      addItem: (item, quantity = 1) => {
         try {
           const existing = get().items.find(
             (i) => i.productId === item.productId && i.variantKey === item.variantKey
           );
           if (existing) {
-            get().updateQuantity(item.productId, item.variantKey, existing.quantity + 1);
+            get().updateQuantity(item.productId, item.variantKey, existing.quantity + quantity);
           } else {
-            set((state) => ({ items: [...state.items, { ...item, quantity: 1 }] }));
+            set((state) => ({ items: [...state.items, { ...item, quantity }] }));
           }
           // Set trigger for animation
           set({ lastAddedItem: item.productId });

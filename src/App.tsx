@@ -20,6 +20,15 @@ const SearchPage = lazy(() => import('./pages/SearchPage').then(m => ({ default:
 const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
 const FavoritesPage = lazy(() => import('./pages/FavoritesPage').then(m => ({ default: m.FavoritesPage })));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage').then(m => ({ default: m.PrivacyPage })));
+const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })));
+const ShippingPage = lazy(() => import('./pages/ShippingPage').then(m => ({ default: m.ShippingPage })));
+const ReturnsPage = lazy(() => import('./pages/ReturnsPage').then(m => ({ default: m.ReturnsPage })));
+const FAQPage = lazy(() => import('./pages/FAQPage').then(m => ({ default: m.FAQPage })));
+const TrackOrderPage = lazy(() => import('./pages/TrackOrderPage').then(m => ({ default: m.TrackOrderPage })));
+const SizeGuidePage = lazy(() => import('./pages/SizeGuidePage').then(m => ({ default: m.SizeGuidePage })));
+const GiftCardsPage = lazy(() => import('./pages/GiftCardsPage').then(m => ({ default: m.GiftCardsPage })));
+const HelpPage = lazy(() => import('./pages/HelpPage').then(m => ({ default: m.HelpPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 function AppRoutes() {
@@ -41,6 +50,15 @@ function AppRoutes() {
           <Route path="favorites" element={<PageTransition><FavoritesPage /></PageTransition>} />
           <Route path="about" element={<PageTransition><AboutPage /></PageTransition>} />
           <Route path="contact" element={<PageTransition><ContactPage /></PageTransition>} />
+          <Route path="privacy" element={<PageTransition><PrivacyPage /></PageTransition>} />
+          <Route path="terms" element={<PageTransition><TermsPage /></PageTransition>} />
+          <Route path="shipping" element={<PageTransition><ShippingPage /></PageTransition>} />
+          <Route path="returns" element={<PageTransition><ReturnsPage /></PageTransition>} />
+          <Route path="faq" element={<PageTransition><FAQPage /></PageTransition>} />
+          <Route path="track" element={<PageTransition><TrackOrderPage /></PageTransition>} />
+          <Route path="size-guide" element={<PageTransition><SizeGuidePage /></PageTransition>} />
+          <Route path="gift-cards" element={<PageTransition><GiftCardsPage /></PageTransition>} />
+          <Route path="help" element={<PageTransition><HelpPage /></PageTransition>} />
           <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
         </Route>
       </Routes>

@@ -3,15 +3,14 @@ import { useSearchParams, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { ProductCard } from '@/components/product/ProductCard';
-import productsData from '@/data/products.json';
-import type { Product } from '@/types';
+import { useProductsStore } from '@/stores/productsStore';
 
 export function SearchPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const [searchQuery, setSearchQuery] = useState(query);
 
-  const products = productsData as Product[];
+  const products = useProductsStore((state) => state.products);
 
   const searchResults = products.filter(
     (product) =>

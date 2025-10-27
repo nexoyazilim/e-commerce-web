@@ -8,14 +8,14 @@ import { BrandCarousel } from '@/components/common/BrandCarousel';
 import { NewsletterSection } from '@/components/common/NewsletterSection';
 import { ScrollReveal } from '@/components/common/ScrollReveal';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import productsData from '@/data/products.json';
+import { useProductsStore } from '@/stores/productsStore';
 import type { Product } from '@/types';
 import { OptimizedImage } from '@/components/common/OptimizedImage';
 
 const QuickViewModal = lazy(() => import('@/components/common/QuickViewModal').then(m => ({ default: m.QuickViewModal })));
 
 export function HomePage() {
-  const products = productsData as Product[];
+  const products = useProductsStore((state) => state.products);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   const newProducts = products.slice(0, 6);

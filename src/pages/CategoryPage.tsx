@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ProductCard } from '@/components/product/ProductCard';
 import categoriesData from '@/data/categories.json';
-import productsData from '@/data/products.json';
-import type { Product } from '@/types';
+import { useProductsStore } from '@/stores/productsStore';
 import { useFilterStore } from '@/stores/filterStore';
 
 export function CategoryPage() {
@@ -17,7 +16,7 @@ export function CategoryPage() {
   const updateFilter = useFilterStore((state) => state.updateFilter);
 
   const category = categoriesData.find((cat) => cat.slug === slug);
-  const products = productsData as Product[];
+  const products = useProductsStore((state) => state.products);
 
   const categoryProducts = products.filter((product) => product.categoryId === category?.id);
   const filteredProducts = categoryProducts.filter((product) =>

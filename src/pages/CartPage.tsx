@@ -6,14 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CartItem } from '@/components/cart/CartItem';
 import { useCartStore } from '@/stores/cartStore';
-import productsData from '@/data/products.json';
+import { useProductsStore } from '@/stores/productsStore';
 import type { Product } from '@/types';
 
 export function CartPage() {
   const items = useCartStore((state) => state.items);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
-  const products = productsData as Product[];
+  const products = useProductsStore((state) => state.products);
 
   const productsMap = useMemo(
     () => new Map(products.map((p) => [p.id, p])),

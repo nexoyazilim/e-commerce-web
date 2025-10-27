@@ -1,7 +1,6 @@
-import { useState, useMemo, useCallback, memo, useRef } from 'react';
+import { useState, useMemo, useCallback, memo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Grid, List, SlidersHorizontal } from 'lucide-react';
-import { useVirtualizer } from '@tanstack/react-virtual';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ProductCard } from '@/components/product/ProductCard';
@@ -16,12 +15,11 @@ import { FilterSidebar } from '@/components/filters/FilterSidebar';
 import { ActiveFilters } from '@/components/filters/ActiveFilters';
 import { ScrollReveal } from '@/components/common/ScrollReveal';
 import { Breadcrumb } from '@/components/common/Breadcrumb';
-import productsData from '@/data/products.json';
-import type { Product } from '@/types';
 import { useFilterStore } from '@/stores/filterStore';
+import { useProductsStore } from '@/stores/productsStore';
 
 function ProductsPage() {
-  const products = productsData as Product[];
+  const products = useProductsStore((state) => state.products);
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const priceRange = useFilterStore((state) => state.priceRange);
@@ -33,7 +31,10 @@ function ProductsPage() {
   const viewMode = useFilterStore((state) => state.viewMode);
   const updateFilter = useFilterStore((state) => state.updateFilter);
   const clearFilters = useFilterStore((state) => state.clearFilters);
-  const parentRef = useRef<HTMLDivElement>(null);
+  
+  const [displayCount, setDisplayCount] = useState(20);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Memoize search handler
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,59 +60,100 @@ function ProductsPage() {
 
   // Filter products
   const filteredProducts = useMemo(() => {
-    const filtered = products.filter((product) => {
-      const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesPrice =
-        product.price >= priceRange[0] && product.price <= priceRange[1];
-      const matchesBrands =
-        selectedBrands.length === 0 || selectedBrands.includes(product.brand);
-      const matchesColors =
-        selectedColors.length === 0 ||
-        selectedColors.some((c) => product.colors.includes(c));
-      const matchesSizes =
-        selectedSizes.length === 0 || selectedSizes.some((s) => product.sizes.includes(s));
-      const matchesRating = product.rating >= rating;
+    // Early return if no filters active
+    const hasActiveFilters = 
+      searchQuery.length > 0 ||
+      priceRange[0] !== 0 ||
+      priceRange[1] !== maxPrice ||
+      selectedBrands.length > 0 ||
+      selectedColors.length > 0 ||
+      selectedSizes.length > 0 ||
+      rating > 0;
+    
+    let filtered = products;
+    
+    if (hasActiveFilters) {
+      filtered = products.filter((product) => {
+        const matchesSearch = 
+          searchQuery.length === 0 || 
+          product.title.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesPrice =
+          product.price >= priceRange[0] && product.price <= priceRange[1];
+        const matchesBrands =
+          selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+        const matchesColors =
+          selectedColors.length === 0 ||
+          selectedColors.some((c) => product.colors.includes(c));
+        const matchesSizes =
+          selectedSizes.length === 0 || 
+          selectedSizes.some((s) => product.sizes.includes(s));
+        const matchesRating = product.rating >= rating;
 
-      return (
-        matchesSearch &&
-        matchesPrice &&
-        matchesBrands &&
-        matchesColors &&
-        matchesSizes &&
-        matchesRating
-      );
-    });
+        return (
+          matchesSearch &&
+          matchesPrice &&
+          matchesBrands &&
+          matchesColors &&
+          matchesSizes &&
+          matchesRating
+        );
+      });
+    }
 
-    // Sort products
-    switch (sortBy) {
-      case 'price-low':
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-high':
-        filtered.sort((a, b) => b.price - a.price);
-        break;
-      case 'rating':
-        filtered.sort((a, b) => b.rating - a.rating);
-        break;
-      default:
-        break;
+    // Sort products only if needed
+    if (sortBy !== 'popular') {
+      filtered = [...filtered]; // Clone before sorting
+      switch (sortBy) {
+        case 'price-low':
+          filtered.sort((a, b) => a.price - b.price);
+          break;
+        case 'price-high':
+          filtered.sort((a, b) => b.price - a.price);
+          break;
+        case 'rating':
+          filtered.sort((a, b) => b.rating - a.rating);
+          break;
+      }
     }
 
     return filtered;
-  }, [products, searchQuery, priceRange, selectedBrands, selectedColors, selectedSizes, rating, sortBy]);
+  }, [products, searchQuery, priceRange, selectedBrands, selectedColors, selectedSizes, rating, sortBy, maxPrice]);
 
   const breadcrumbs = useMemo(() => [
     { label: 'Home', href: '/' },
     { label: 'Products', href: '/products' },
   ], []);
 
-  // Virtual scrolling setup
-  const rowVirtualizer = useVirtualizer({
-    count: filteredProducts.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 400, // Estimated height for each product card
-    overscan: 5, // Render 5 extra items outside of viewport
-  });
+  // Intersection Observer for infinite scroll
+  useEffect(() => {
+    if (!loadMoreRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && displayCount < filteredProducts.length) {
+          setIsLoadingMore(true);
+          setTimeout(() => {
+            setDisplayCount(prev => Math.min(prev + 20, filteredProducts.length));
+            setIsLoadingMore(false);
+          }, 300);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [displayCount, filteredProducts.length]);
+
+  // Reset displayCount when filters change
+  useEffect(() => {
+    setDisplayCount(20);
+  }, [filteredProducts.length]);
+
+  const displayedProducts = useMemo(
+    () => filteredProducts.slice(0, displayCount),
+    [filteredProducts, displayCount]
+  );
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -200,47 +242,31 @@ function ProductsPage() {
           <ActiveFilters />
 
           {filteredProducts.length > 0 ? (
-            <div
-              ref={parentRef}
-              className="mt-6 h-[800px] overflow-auto"
-            >
+            <div className="mt-6">
               <div
-                style={{
-                  height: `${rowVirtualizer.getTotalSize()}px`,
-                  width: '100%',
-                  position: 'relative',
-                }}
+                className={`grid gap-6 ${
+                  viewMode === 'grid'
+                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                    : 'grid-cols-1'
+                }`}
               >
-                <div
-                  className={`absolute inset-0 grid gap-6 ${
-                    viewMode === 'grid'
-                      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-                      : 'grid-cols-1'
-                  }`}
-                >
-                  {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                    const product = filteredProducts[virtualRow.index];
-                    return (
-                      <motion.div
-                        key={product.id}
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          width: '100%',
-                          height: `${virtualRow.size}px`,
-                          transform: `translateY(${virtualRow.start}px)`,
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <ProductCard product={product} />
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                {displayedProducts.map((product, index) => (
+                  <div
+                    key={product.id}
+                    className={`animate-fade-in-up stagger-${(index % 5) + 1}`}
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                ))}
               </div>
+              
+              {displayCount < filteredProducts.length && (
+                <div ref={loadMoreRef} className="mt-8 flex justify-center">
+                  {isLoadingMore && (
+                    <div className="text-muted-foreground">Loading more products...</div>
+                  )}
+                </div>
+              )}
             </div>
           ) : (
             <ScrollReveal className="flex flex-col items-center justify-center py-12 text-center">

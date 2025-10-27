@@ -19,6 +19,8 @@ export interface Review {
 
 interface ReviewStore {
   reviews: Review[];
+  reviewsByProduct: Map<string, Review[]>;
+  rebuildReviewsMap: (reviews: Review[]) => Map<string, Review[]>;
   addReview: (review: Omit<Review, 'id' | 'createdAt' | 'updatedAt' | 'helpful'>) => void;
   updateReview: (id: string, updates: Partial<Review>) => void;
   deleteReview: (id: string) => void;
@@ -31,6 +33,15 @@ export const useReviewStore = create<ReviewStore>()(
   persist(
     (set, get) => ({
       reviews: [],
+      reviewsByProduct: new Map(),
+      rebuildReviewsMap: (reviews: Review[]) => {
+        const map = new Map<string, Review[]>();
+        reviews.forEach(review => {
+          const existing = map.get(review.productId) || [];
+          map.set(review.productId, [...existing, review]);
+        });
+        return map;
+      },
       addReview: (review) => {
         try {
           // Validate review data
@@ -128,9 +139,13 @@ export const useReviewStore = create<ReviewStore>()(
             updatedAt: new Date().toISOString(),
           };
           
-          set((state) => ({
-            reviews: [...state.reviews, newReview],
-          }));
+          set((state) => {
+            const newReviews = [...state.reviews, newReview];
+            return {
+              reviews: newReviews,
+              reviewsByProduct: get().rebuildReviewsMap(newReviews),
+            };
+          });
           
           toast.success('Review added successfully');
         } catch (error) {
@@ -206,13 +221,17 @@ export const useReviewStore = create<ReviewStore>()(
             }
           }
           
-          set((state) => ({
-            reviews: state.reviews.map((review) =>
+          set((state) => {
+            const newReviews = state.reviews.map((review) =>
               review.id === id
                 ? { ...review, ...updates, updatedAt: new Date().toISOString() }
                 : review
-            ),
-          }));
+            );
+            return {
+              reviews: newReviews,
+              reviewsByProduct: get().rebuildReviewsMap(newReviews),
+            };
+          });
           
           toast.success('Review updated successfully');
         } catch (error) {
@@ -243,9 +262,13 @@ export const useReviewStore = create<ReviewStore>()(
             throw new Error(errorMsg);
           }
           
-          set((state) => ({
-            reviews: state.reviews.filter((review) => review.id !== id),
-          }));
+          set((state) => {
+            const newReviews = state.reviews.filter((review) => review.id !== id);
+            return {
+              reviews: newReviews,
+              reviewsByProduct: get().rebuildReviewsMap(newReviews),
+            };
+          });
           
           toast.success('Review deleted successfully');
         } catch (error) {
@@ -261,7 +284,7 @@ export const useReviewStore = create<ReviewStore>()(
         }
       },
       getReviewsByProduct: (productId) => {
-        return get().reviews.filter((review) => review.productId === productId);
+        return get().reviewsByProduct.get(productId) || [];
       },
       getAverageRating: (productId) => {
         const reviews = get().getReviewsByProduct(productId);
@@ -270,13 +293,17 @@ export const useReviewStore = create<ReviewStore>()(
         return sum / reviews.length;
       },
       toggleHelpful: (id) => {
-        set((state) => ({
-          reviews: state.reviews.map((review) =>
+        set((state) => {
+          const newReviews = state.reviews.map((review) =>
             review.id === id
               ? { ...review, helpful: review.helpful + 1 }
               : review
-          ),
-        }));
+          );
+          return {
+            reviews: newReviews,
+            reviewsByProduct: get().rebuildReviewsMap(newReviews),
+          };
+        });
       },
     }),
     {

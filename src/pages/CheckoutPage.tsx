@@ -9,7 +9,7 @@ import { useCartStore } from '@/stores/cartStore';
 import { useOrderStore } from '@/stores/orderStore';
 import { ConfettiEffect } from '@/components/common/ConfettiEffect';
 import { toast } from 'react-hot-toast';
-import productsData from '@/data/products.json';
+import { useProductsStore } from '@/stores/productsStore';
 import { logError, getUserErrorMessage } from '@/lib/error-handler';
 import type { Product } from '@/types';
 
@@ -29,7 +29,7 @@ export function CheckoutPage() {
   const clearCart = useCartStore((state) => state.clearCart);
   const addOrder = useOrderStore((state) => state.addOrder);
 
-  const products = productsData as Product[];
+  const products = useProductsStore((state) => state.products);
   const cartProducts = items
     .map((item) => {
       const product = products.find((p) => p.id === item.productId);

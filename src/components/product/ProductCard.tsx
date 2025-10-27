@@ -62,9 +62,9 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
     >
       <div className="relative h-full overflow-hidden rounded-lg border bg-card transition-all duration-300 hover:shadow-2xl">
         <Link to={`/product/${product.slug}`} className="block">
-          <div className="relative aspect-square bg-muted">
+          <div className="relative aspect-square bg-muted overflow-hidden">
             <motion.div
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
               className="h-full w-full"
             >

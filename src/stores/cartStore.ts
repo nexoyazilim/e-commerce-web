@@ -34,22 +34,10 @@ export const useCartStore = create<CartStore>()(
           // Set trigger for animation
           set({ lastAddedItem: item.productId });
           
-          // Use a more robust approach with requestAnimationFrame
-          if (typeof window !== 'undefined') {
-            const timeoutId = window.requestAnimationFrame(() => {
-              setTimeout(() => {
-                set({ lastAddedItem: null });
-              }, 100);
-            });
-            
-            // Store cleanup function if needed
-            return () => window.cancelAnimationFrame(timeoutId);
-          } else {
-            // Fallback for SSR/test environments
-            setTimeout(() => {
-              set({ lastAddedItem: null });
-            }, 100);
-          }
+          // Clear after 100ms - simple and sufficient for animation
+          setTimeout(() => {
+            set({ lastAddedItem: null });
+          }, 100);
         } catch (error) {
           logError({
             context: 'cartStore.addItem',

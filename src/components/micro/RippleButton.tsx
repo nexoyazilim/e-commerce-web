@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface RippleButtonProps {
@@ -9,6 +9,7 @@ interface RippleButtonProps {
 
 export function RippleButton({ children, className = '', onClick }: RippleButtonProps) {
   const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
+  const timeoutIdsRef = useRef<number[]>([]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const button = e.currentTarget;
@@ -24,12 +25,25 @@ export function RippleButton({ children, className = '', onClick }: RippleButton
     
     setRipples((prev) => [...prev, newRipple]);
     
-    setTimeout(() => {
+    const timeoutId = window.setTimeout(() => {
       setRipples((prev) => prev.filter((ripple) => ripple.id !== newRipple.id));
+      // Remove from tracking array
+      timeoutIdsRef.current = timeoutIdsRef.current.filter(id => id !== timeoutId);
     }, 600);
+    
+    // Track timeout ID
+    timeoutIdsRef.current.push(timeoutId);
     
     onClick?.();
   };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      timeoutIdsRef.current.forEach(clearTimeout);
+      timeoutIdsRef.current = [];
+    };
+  }, []);
 
   return (
     <button

@@ -29,13 +29,18 @@ export function ConfettiEffect({ trigger, options }: ConfettiEffectProps) {
         angle: 120,
       })
 
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         confetti({
           ...defaults,
           startVelocity: 30,
           spread: 360,
         })
       }, 250)
+
+      // Cleanup timeout on unmount or trigger change
+      return () => {
+        clearTimeout(timeoutId);
+      }
     }
   }, [trigger, options])
 

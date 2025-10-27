@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { MessageSquare, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ReviewForm } from './ReviewForm';
 import { ReviewCard } from './ReviewCard';
 import { EmptyState } from '@/components/common/EmptyState';
 import { useReviewStore } from '@/stores/reviewStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useTranslation } from 'react-i18next';
+
+const ReviewForm = lazy(() => import('./ReviewForm').then(m => ({ default: m.ReviewForm })));
 
 interface ReviewSectionProps {
   productId: string;
@@ -65,7 +66,9 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
       )}
 
       {showReviewForm && (
-        <ReviewForm productId={productId} onClose={() => setShowReviewForm(false)} />
+        <Suspense fallback={null}>
+          <ReviewForm productId={productId} onClose={() => setShowReviewForm(false)} />
+        </Suspense>
       )}
     </section>
   );

@@ -1,3 +1,4 @@
+import { lazy, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Award, Shield, Truck } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -5,13 +6,13 @@ import { ProductCard } from '@/components/product/ProductCard';
 import { HeroSlider } from '@/components/common/HeroSlider';
 import { BrandCarousel } from '@/components/common/BrandCarousel';
 import { NewsletterSection } from '@/components/common/NewsletterSection';
-import { QuickViewModal } from '@/components/common/QuickViewModal';
 import { ScrollReveal } from '@/components/common/ScrollReveal';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useState } from 'react';
 import productsData from '@/data/products.json';
 import type { Product } from '@/types';
 import { OptimizedImage } from '@/components/common/OptimizedImage';
+
+const QuickViewModal = lazy(() => import('@/components/common/QuickViewModal').then(m => ({ default: m.QuickViewModal })));
 
 export function HomePage() {
   const products = productsData as Product[];
@@ -231,11 +232,15 @@ export function HomePage() {
         </div>
       </section>
 
-      <QuickViewModal
-        product={quickViewProduct}
-        isOpen={!!quickViewProduct}
-        onClose={() => setQuickViewProduct(null)}
-      />
+      {quickViewProduct && (
+        <Suspense fallback={null}>
+          <QuickViewModal
+            product={quickViewProduct}
+            isOpen={!!quickViewProduct}
+            onClose={() => setQuickViewProduct(null)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

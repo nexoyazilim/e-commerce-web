@@ -1,11 +1,13 @@
+import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { CookieBanner } from './CookieBanner';
 import { ComparisonBar } from '@/components/product/ComparisonBar';
-import { ComparisonTable } from '@/components/product/ComparisonTable';
 import { Toaster } from 'react-hot-toast';
 import { useProductComparison } from '@/hooks/useProductComparison';
+
+const ComparisonTable = lazy(() => import('@/components/product/ComparisonTable').then(m => ({ default: m.ComparisonTable })));
 
 export function Layout() {
   const { isOpen } = useProductComparison();
@@ -19,7 +21,11 @@ export function Layout() {
       <Footer />
       <CookieBanner />
       <ComparisonBar />
-      <ComparisonTable isOpen={isOpen} />
+      {isOpen && (
+        <Suspense fallback={null}>
+          <ComparisonTable isOpen={isOpen} />
+        </Suspense>
+      )}
       <Toaster position="top-right" />
     </div>
   );

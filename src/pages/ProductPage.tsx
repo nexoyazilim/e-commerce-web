@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Heart, ShoppingCart, Share2 } from 'lucide-react';
@@ -14,12 +14,14 @@ import { StarRating } from '@/components/common/StarRating';
 import { ProductSkeleton } from '@/components/loading/ProductSkeleton';
 import { useCartStore } from '@/stores/cartStore';
 import { useFavoritesStore } from '@/stores/favoritesStore';
-import { ConfettiEffect } from '@/components/common/ConfettiEffect';
 import { toast } from 'react-hot-toast';
+
 import productsData from '@/data/products.json';
 import type { Product } from '@/types';
 import { getDefaultColor, getDefaultSize, hasAvailableVariants, calculateDiscount } from '@/lib/product-utils';
 import { OptimizedImage } from '@/components/common/OptimizedImage';
+
+const ConfettiEffect = lazy(() => import('@/components/common/ConfettiEffect').then(m => ({ default: m.ConfettiEffect })));
 
 export function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -96,7 +98,9 @@ export function ProductPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <ConfettiEffect trigger={showConfetti} />
+      <Suspense fallback={null}>
+        <ConfettiEffect trigger={showConfetti} />
+      </Suspense>
       <Breadcrumb items={breadcrumbs} />
       
       <div className="mt-8 grid gap-8 lg:grid-cols-3">

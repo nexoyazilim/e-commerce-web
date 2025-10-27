@@ -25,9 +25,9 @@ function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const priceRange = useFilterStore((state) => state.priceRange);
-  const brands = useFilterStore((state) => state.brands);
-  const colors = useFilterStore((state) => state.colors);
-  const sizes = useFilterStore((state) => state.sizes);
+  const selectedBrands = useFilterStore((state) => state.brands);
+  const selectedColors = useFilterStore((state) => state.colors);
+  const selectedSizes = useFilterStore((state) => state.sizes);
   const rating = useFilterStore((state) => state.rating);
   const sortBy = useFilterStore((state) => state.sortBy);
   const viewMode = useFilterStore((state) => state.viewMode);
@@ -64,12 +64,12 @@ function ProductsPage() {
       const matchesPrice =
         product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesBrands =
-        brands.length === 0 || brands.includes(product.brand);
+        selectedBrands.length === 0 || selectedBrands.includes(product.brand);
       const matchesColors =
-        colors.length === 0 ||
-        colors.some((c) => product.colors.includes(c));
+        selectedColors.length === 0 ||
+        selectedColors.some((c) => product.colors.includes(c));
       const matchesSizes =
-        sizes.length === 0 || sizes.some((s) => product.sizes.includes(s));
+        selectedSizes.length === 0 || selectedSizes.some((s) => product.sizes.includes(s));
       const matchesRating = product.rating >= rating;
 
       return (
@@ -98,7 +98,7 @@ function ProductsPage() {
     }
 
     return filtered;
-  }, [products, searchQuery, priceRange, brands, colors, sizes, rating, sortBy]);
+  }, [products, searchQuery, priceRange, selectedBrands, selectedColors, selectedSizes, rating, sortBy]);
 
   const breadcrumbs = useMemo(() => [
     { label: 'Home', href: '/' },

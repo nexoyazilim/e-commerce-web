@@ -24,7 +24,15 @@ function ProductsPage() {
   const products = productsData as Product[];
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const filterStore = useFilterStore();
+  const priceRange = useFilterStore((state) => state.priceRange);
+  const brands = useFilterStore((state) => state.brands);
+  const colors = useFilterStore((state) => state.colors);
+  const sizes = useFilterStore((state) => state.sizes);
+  const rating = useFilterStore((state) => state.rating);
+  const sortBy = useFilterStore((state) => state.sortBy);
+  const viewMode = useFilterStore((state) => state.viewMode);
+  const updateFilter = useFilterStore((state) => state.updateFilter);
+  const clearFilters = useFilterStore((state) => state.clearFilters);
   const parentRef = useRef<HTMLDivElement>(null);
 
   // Memoize search handler
@@ -54,15 +62,15 @@ function ProductsPage() {
     const filtered = products.filter((product) => {
       const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesPrice =
-        product.price >= filterStore.priceRange[0] && product.price <= filterStore.priceRange[1];
+        product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesBrands =
-        filterStore.brands.length === 0 || filterStore.brands.includes(product.brand);
+        brands.length === 0 || brands.includes(product.brand);
       const matchesColors =
-        filterStore.colors.length === 0 ||
-        filterStore.colors.some((c) => product.colors.includes(c));
+        colors.length === 0 ||
+        colors.some((c) => product.colors.includes(c));
       const matchesSizes =
-        filterStore.sizes.length === 0 || filterStore.sizes.some((s) => product.sizes.includes(s));
-      const matchesRating = product.rating >= filterStore.rating;
+        sizes.length === 0 || sizes.some((s) => product.sizes.includes(s));
+      const matchesRating = product.rating >= rating;
 
       return (
         matchesSearch &&
@@ -75,7 +83,7 @@ function ProductsPage() {
     });
 
     // Sort products
-    switch (filterStore.sortBy) {
+    switch (sortBy) {
       case 'price-low':
         filtered.sort((a, b) => a.price - b.price);
         break;
@@ -90,7 +98,7 @@ function ProductsPage() {
     }
 
     return filtered;
-  }, [products, searchQuery, filterStore]);
+  }, [products, searchQuery, priceRange, brands, colors, sizes, rating, sortBy]);
 
   const breadcrumbs = useMemo(() => [
     { label: 'Home', href: '/' },
@@ -134,8 +142,8 @@ function ProductsPage() {
           </Button>
           
           <Select
-            value={filterStore.sortBy}
-            onValueChange={(value) => filterStore.updateFilter('sortBy', value)}
+            value={sortBy}
+            onValueChange={(value) => updateFilter('sortBy', value)}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Sort by" />
@@ -150,16 +158,16 @@ function ProductsPage() {
 
           <div className="flex rounded-md border">
             <Button
-              variant={filterStore.viewMode === 'grid' ? 'default' : 'ghost'}
+              variant={viewMode === 'grid' ? 'default' : 'ghost'}
               size="icon"
-              onClick={() => filterStore.updateFilter('viewMode', 'grid')}
+              onClick={() => updateFilter('viewMode', 'grid')}
             >
               <Grid className="h-4 w-4" />
             </Button>
             <Button
-              variant={filterStore.viewMode === 'list' ? 'default' : 'ghost'}
+              variant={viewMode === 'list' ? 'default' : 'ghost'}
               size="icon"
-              onClick={() => filterStore.updateFilter('viewMode', 'list')}
+              onClick={() => updateFilter('viewMode', 'list')}
             >
               <List className="h-4 w-4" />
             </Button>
@@ -205,7 +213,7 @@ function ProductsPage() {
               >
                 <div
                   className={`absolute inset-0 grid gap-6 ${
-                    filterStore.viewMode === 'grid'
+                    viewMode === 'grid'
                       ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
                       : 'grid-cols-1'
                   }`}
@@ -237,7 +245,7 @@ function ProductsPage() {
           ) : (
             <ScrollReveal className="flex flex-col items-center justify-center py-12 text-center">
               <p className="text-lg text-muted-foreground">No products found</p>
-              <Button variant="outline" onClick={() => filterStore.clearFilters()} className="mt-4">
+              <Button variant="outline" onClick={clearFilters} className="mt-4">
                 Clear all filters
               </Button>
             </ScrollReveal>

@@ -1,41 +1,50 @@
+import { useMemo } from "react"
 import { X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { useFilterStore } from "@/stores/filterStore"
 
 export function ActiveFilters() {
-  const filterStore = useFilterStore()
+  const brands = useFilterStore((state) => state.brands)
+  const colors = useFilterStore((state) => state.colors)
+  const sizes = useFilterStore((state) => state.sizes)
+  const rating = useFilterStore((state) => state.rating)
+  const updateFilter = useFilterStore((state) => state.updateFilter)
 
-  const activeFilters = []
+  const activeFilters = useMemo(() => {
+    const filters = []
 
-  if (filterStore.brands.length > 0) {
-    activeFilters.push(...filterStore.brands.map((b) => ({ type: "brand", value: b, label: b })))
-  }
+    if (brands.length > 0) {
+      filters.push(...brands.map((b) => ({ type: "brand", value: b, label: b })))
+    }
 
-  if (filterStore.colors.length > 0) {
-    activeFilters.push(...filterStore.colors.map((c) => ({ type: "color", value: c, label: c })))
-  }
+    if (colors.length > 0) {
+      filters.push(...colors.map((c) => ({ type: "color", value: c, label: c })))
+    }
 
-  if (filterStore.sizes.length > 0) {
-    activeFilters.push(...filterStore.sizes.map((s) => ({ type: "size", value: s, label: s })))
-  }
+    if (sizes.length > 0) {
+      filters.push(...sizes.map((s) => ({ type: "size", value: s, label: s })))
+    }
 
-  if (filterStore.rating > 0) {
-    activeFilters.push({ type: "rating", value: filterStore.rating, label: `${filterStore.rating}+ Stars` })
-  }
+    if (rating > 0) {
+      filters.push({ type: "rating", value: rating, label: `${rating}+ Stars` })
+    }
+
+    return filters
+  }, [brands, colors, sizes, rating])
 
   const removeFilter = (type: string, value: string | number) => {
     switch (type) {
       case "brand":
-        filterStore.updateFilter("brands", filterStore.brands.filter((b) => b !== value))
+        updateFilter("brands", brands.filter((b) => b !== value))
         break
       case "color":
-        filterStore.updateFilter("colors", filterStore.colors.filter((c) => c !== value))
+        updateFilter("colors", colors.filter((c) => c !== value))
         break
       case "size":
-        filterStore.updateFilter("sizes", filterStore.sizes.filter((s) => s !== value))
+        updateFilter("sizes", sizes.filter((s) => s !== value))
         break
       case "rating":
-        filterStore.updateFilter("rating", 0)
+        updateFilter("rating", 0)
         break
     }
   }

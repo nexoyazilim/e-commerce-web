@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
@@ -15,28 +15,39 @@ export function CartPage() {
   const removeItem = useCartStore((state) => state.removeItem);
   const products = productsData as Product[];
 
+  const productsMap = useMemo(
+    () => new Map(products.map((p) => [p.id, p])),
+    [products]
+  );
+
   const cartProducts = useMemo(
     () =>
       items
         .map((item) => {
-          const product = products.find((p) => p.id === item.productId);
+          const product = productsMap.get(item.productId);
           return product ? { ...product, cartItem: item } : null;
         })
         .filter((item): item is Product & { cartItem: { productId: string; variantKey: string; color: string; size: string; quantity: number } } => item !== null),
-    [items, products]
+    [items, productsMap]
   );
 
   const totalPrice = useMemo(() => {
     return cartProducts.reduce((total, item) => total + item.price * item.cartItem.quantity, 0);
   }, [cartProducts]);
 
-  const handleQuantityChange = (productId: string, variantKey: string, quantity: number) => {
-    updateQuantity(productId, variantKey, quantity);
-  };
+  const handleQuantityChange = useCallback(
+    (productId: string, variantKey: string, quantity: number) => {
+      updateQuantity(productId, variantKey, quantity);
+    },
+    [updateQuantity]
+  );
 
-  const handleRemove = (productId: string, variantKey: string) => {
-    removeItem(productId, variantKey);
-  };
+  const handleRemove = useCallback(
+    (productId: string, variantKey: string) => {
+      removeItem(productId, variantKey);
+    },
+    [removeItem]
+  );
 
   if (items.length === 0) {
     return (

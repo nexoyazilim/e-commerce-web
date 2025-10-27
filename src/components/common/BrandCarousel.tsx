@@ -1,6 +1,7 @@
 import { useCallback } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
+import { useTranslation } from "react-i18next"
 import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -16,6 +17,7 @@ const brands = [
 ]
 
 export function BrandCarousel() {
+  const { t } = useTranslation();
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -42,8 +44,8 @@ export function BrandCarousel() {
           viewport={{ once: true }}
           className="mb-8 text-center"
         >
-          <h2 className="text-2xl font-bold tracking-tight">Brands We Trust</h2>
-          <p className="text-muted-foreground">Shop from our trusted partners</p>
+          <h2 className="text-2xl font-bold tracking-tight">{t('home.brands.title')}</h2>
+          <p className="text-muted-foreground">{t('home.brands.desc')}</p>
         </motion.div>
         
         <div className="relative" ref={emblaRef}>

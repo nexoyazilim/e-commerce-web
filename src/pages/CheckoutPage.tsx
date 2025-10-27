@@ -12,8 +12,10 @@ import { toast } from 'react-hot-toast';
 import { useProductsStore } from '@/stores/productsStore';
 import { logError, getUserErrorMessage } from '@/lib/error-handler';
 import type { Product } from '@/types';
+import { useTranslation } from 'react-i18next';
 
 export function CheckoutPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [address, setAddress] = useState({
@@ -49,7 +51,7 @@ export function CheckoutPage() {
       if (step === 1) {
         // Validate shipping address
         if (!address.fullName || address.fullName.trim().length === 0) {
-          toast.error('Please enter your full name');
+          toast.error(t('pages.checkout.errorFullName'));
           logError({
             context: 'CheckoutPage.handleNext',
             message: 'Full name is required',
@@ -59,29 +61,29 @@ export function CheckoutPage() {
         }
         
         if (address.fullName.length < 2) {
-          toast.error('Full name must be at least 2 characters');
+          toast.error(t('pages.checkout.errorFullNameMin'));
           return;
         }
         
         if (!address.address || address.address.trim().length === 0) {
-          toast.error('Please enter your address');
+          toast.error(t('pages.checkout.errorAddress'));
           return;
         }
         
         if (!address.city || address.city.trim().length === 0) {
-          toast.error('Please enter your city');
+          toast.error(t('pages.checkout.errorCity'));
           return;
         }
         
         if (!address.phone || address.phone.trim().length === 0) {
-          toast.error('Please enter your phone number');
+          toast.error(t('pages.checkout.errorPhone'));
           return;
         }
         
         // Basic phone validation (at least 10 digits)
         const phoneDigits = address.phone.replace(/\D/g, '');
         if (phoneDigits.length < 10) {
-          toast.error('Please enter a valid phone number');
+          toast.error(t('pages.checkout.errorPhoneValid'));
           return;
         }
       }
@@ -162,7 +164,7 @@ export function CheckoutPage() {
 
       clearCart();
       setShowConfetti(true);
-      toast.success('Order placed successfully!');
+      toast.success(t('pages.checkout.ordersuccess'));
       setTimeout(() => {
         setShowConfetti(false);
         navigate('/profile');
@@ -187,7 +189,7 @@ export function CheckoutPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold tracking-tight">Checkout</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t('pages.checkout.title')}</h1>
       </motion.div>
 
       <CheckoutSteps currentStep={step} />
@@ -202,26 +204,26 @@ export function CheckoutPage() {
             className="mx-auto max-w-2xl"
           >
             <div className="mb-8 rounded-lg border bg-card p-6">
-              <h2 className="mb-6 text-xl font-bold">Shipping Address</h2>
+              <h2 className="mb-6 text-xl font-bold">{t('pages.checkout.shippingAddress')}</h2>
               <div className="space-y-4">
-                <Input
-                  placeholder="Full Name"
+                  <Input
+                  placeholder={t('pages.checkout.fullName')}
                   value={address.fullName}
                   onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
                 />
-                <Input
-                  placeholder="Address"
-                  value={address.address}
+                  <Input
+                    placeholder={t('pages.checkout.address')}
+                    value={address.address}
                   onChange={(e) => setAddress({ ...address, address: e.target.value })}
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <Input
-                    placeholder="City"
+                    placeholder={t('pages.checkout.city')}
                     value={address.city}
                     onChange={(e) => setAddress({ ...address, city: e.target.value })}
                   />
                   <Input
-                    placeholder="Phone"
+                    placeholder={t('pages.checkout.phone')}
                     value={address.phone}
                     onChange={(e) => setAddress({ ...address, phone: e.target.value })}
                   />
@@ -240,7 +242,7 @@ export function CheckoutPage() {
             className="mx-auto max-w-2xl"
           >
             <div className="mb-8 rounded-lg border bg-card p-6">
-              <h2 className="mb-6 text-xl font-bold">Payment Method</h2>
+              <h2 className="mb-6 text-xl font-bold">{t('pages.checkout.paymentMethod')}</h2>
               <div className="space-y-3">
                 <button
                   onClick={() => setPaymentMethod('credit-card')}
@@ -248,8 +250,8 @@ export function CheckoutPage() {
                     paymentMethod === 'credit-card' ? 'border-primary bg-primary/10' : ''
                   }`}
                 >
-                  <h3 className="font-semibold">Credit Card</h3>
-                  <p className="text-sm text-muted-foreground">Pay with credit or debit card</p>
+                  <h3 className="font-semibold">{t('pages.checkout.creditCard')}</h3>
+                  <p className="text-sm text-muted-foreground">{t('pages.checkout.creditCardDesc')}</p>
                 </button>
                 <button
                   onClick={() => setPaymentMethod('cash')}
@@ -257,8 +259,8 @@ export function CheckoutPage() {
                     paymentMethod === 'cash' ? 'border-primary bg-primary/10' : ''
                   }`}
                 >
-                  <h3 className="font-semibold">Cash on Delivery</h3>
-                  <p className="text-sm text-muted-foreground">Pay when you receive</p>
+                  <h3 className="font-semibold">{t('pages.checkout.cash')}</h3>
+                  <p className="text-sm text-muted-foreground">{t('pages.checkout.cashDesc')}</p>
                 </button>
               </div>
             </div>
@@ -274,7 +276,7 @@ export function CheckoutPage() {
             className="mx-auto max-w-2xl"
           >
             <div className="mb-8 rounded-lg border bg-card p-6">
-              <h2 className="mb-6 text-xl font-bold">Order Summary</h2>
+              <h2 className="mb-6 text-xl font-bold">{t('pages.checkout.orderSummary')}</h2>
               <div className="space-y-4">
                 {cartProducts.map((item) => (
                   <div key={item.product.id} className="flex gap-4">
@@ -307,14 +309,14 @@ export function CheckoutPage() {
       <div className="mx-auto flex max-w-2xl justify-between">
         <Button variant="outline" onClick={handleBack}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
+          {t('pages.checkout.back')}
         </Button>
         {step < 3 ? (
           <Button onClick={handleNext}>
-            Continue <ArrowRight className="ml-2 h-4 w-4" />
+            {t('pages.checkout.continue')} <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         ) : (
-          <Button onClick={handleCompleteOrder}>Complete Order</Button>
+          <Button onClick={handleCompleteOrder}>{t('pages.checkout.completeOrder')}</Button>
         )}
       </div>
     </div>

@@ -23,7 +23,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
   const handleAddToCart = () => {
     // Validate that product has available variants
     if (!hasAvailableVariants(product)) {
-      toast.error('Product variants not available. Please try another product.');
+      toast.error(t('product.variantsNotAvailable'));
       return;
     }
     
@@ -38,16 +38,16 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
         color,
         size,
       });
-      toast.success(t('actions.addToCart'));
+      toast.success(t('product.addedToCart'));
     } catch (error) {
       console.error('Error adding item to cart:', error);
-      toast.error('Failed to add item to cart. Please try again.');
+      toast.error(t('product.failedToAdd'));
     }
   };
 
   const handleToggleFavorite = () => {
     toggleFavorite(product.id);
-    toast.success(isFavorite ? 'Removed from favorites' : 'Added to favorites');
+    toast.success(isFavorite ? t('favorites.removed') : t('favorites.added'));
   };
 
   const discountPercent = calculateDiscount(product.price, product.oldPrice);
@@ -110,7 +110,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
           <button 
             onClick={handleToggleFavorite} 
             className="w-full h-full flex items-center justify-center"
-            aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            aria-label={isFavorite ? t('favorites.removed') : t('favorites.added')}
           >
             <motion.div
               key={isFavorite ? 'favorite' : 'not-favorite'}
@@ -166,7 +166,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-              aria-label={hasAvailableVariants(product) ? t('actions.addToCart') : 'Product variants not available'}
+              aria-label={hasAvailableVariants(product) ? t('actions.addToCart') : t('product.notAvailable')}
             >
               <ShoppingCart className="mr-2 inline h-4 w-4" />
               {t('actions.addToCart')}

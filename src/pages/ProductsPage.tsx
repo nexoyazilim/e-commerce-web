@@ -17,8 +17,10 @@ import { ScrollReveal } from '@/components/common/ScrollReveal';
 import { Breadcrumb } from '@/components/common/Breadcrumb';
 import { useFilterStore } from '@/stores/filterStore';
 import { useProductsStore } from '@/stores/productsStore';
+import { useTranslation } from 'react-i18next';
 
 function ProductsPage() {
+  const { t } = useTranslation();
   const products = useProductsStore((state) => state.products);
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
@@ -120,9 +122,9 @@ function ProductsPage() {
   }, [products, searchQuery, priceRange, selectedBrands, selectedColors, selectedSizes, rating, sortBy, maxPrice]);
 
   const breadcrumbs = useMemo(() => [
-    { label: 'Home', href: '/' },
-    { label: 'Products', href: '/products' },
-  ], []);
+    { label: t('pages.checkout.breadcrumbHome'), href: '/' },
+    { label: t('pages.checkout.breadcrumbProducts'), href: '/products' },
+  ], [t]);
 
   // Intersection Observer for infinite scroll
   useEffect(() => {
@@ -160,14 +162,14 @@ function ProductsPage() {
       <Breadcrumb items={breadcrumbs} />
       
       <div className="mb-8 mt-4">
-        <h1 className="text-3xl font-bold tracking-tight">All Products</h1>
-        <p className="text-muted-foreground">Showing {filteredProducts.length} products</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t('pages.products.title')}</h1>
+        <p className="text-muted-foreground">{t('pages.products.showing', { count: filteredProducts.length })}</p>
       </div>
 
             <div className="mb-6 flex items-center justify-between gap-4">
         <div className="flex-1 max-w-sm">
           <Input
-            placeholder="Search products..."
+            placeholder={t('pages.products.searchPlaceholder')}
             value={searchQuery}
             onChange={handleSearchChange}
           />
@@ -188,13 +190,13 @@ function ProductsPage() {
             onValueChange={(value) => updateFilter('sortBy', value)}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort by" />
+              <SelectValue placeholder={t('pages.products.sortBy')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="popular">Most Popular</SelectItem>
-              <SelectItem value="price-low">Price: Low to High</SelectItem>
-              <SelectItem value="price-high">Price: High to Low</SelectItem>
-              <SelectItem value="rating">Highest Rated</SelectItem>
+              <SelectItem value="popular">{t('pages.products.mostPopular')}</SelectItem>
+              <SelectItem value="price-low">{t('pages.products.priceLow')}</SelectItem>
+              <SelectItem value="price-high">{t('pages.products.priceHigh')}</SelectItem>
+              <SelectItem value="rating">{t('pages.products.highestRated')}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -263,16 +265,16 @@ function ProductsPage() {
               {displayCount < filteredProducts.length && (
                 <div ref={loadMoreRef} className="mt-8 flex justify-center">
                   {isLoadingMore && (
-                    <div className="text-muted-foreground">Loading more products...</div>
+                    <div className="text-muted-foreground">{t('pages.products.loadingMore')}</div>
                   )}
                 </div>
               )}
             </div>
           ) : (
             <ScrollReveal className="flex flex-col items-center justify-center py-12 text-center">
-              <p className="text-lg text-muted-foreground">No products found</p>
+              <p className="text-lg text-muted-foreground">{t('pages.products.noProducts')}</p>
               <Button variant="outline" onClick={clearFilters} className="mt-4">
-                Clear all filters
+                {t('pages.products.clearFilters')}
               </Button>
             </ScrollReveal>
           )}

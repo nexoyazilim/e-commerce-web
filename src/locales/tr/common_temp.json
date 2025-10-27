@@ -300,8 +300,7 @@
       "total": "Total",
       "couponPlaceholder": "Coupon code",
       "applyCoupon": "Apply Coupon",
-      "checkout": "Proceed to Checkout",
-      "addError": "Failed to add item to cart. Please try again."
+      "checkout": "Proceed to Checkout"
     },
     "checkout": {
       "title": "Checkout",
@@ -322,15 +321,7 @@
       "ordersuccess": "Order placed successfully!",
       "emptyCart": "Your cart is empty. Please add items to your cart first.",
       "invalidTotal": "Invalid order total. Please try again.",
-      "invalidProduct": "Invalid product data. Please try again.",
-      "errorFullName": "Please enter your full name",
-      "errorFullNameMin": "Full name must be at least 2 characters",
-      "errorAddress": "Please enter your address",
-      "errorCity": "Please enter your city",
-      "errorPhone": "Please enter your phone number",
-      "errorPhoneValid": "Please enter a valid phone number",
-      "breadcrumbHome": "Home",
-      "breadcrumbProducts": "Products"
+      "invalidProduct": "Invalid product data. Please try again."
     },
     "products": {
       "title": "All Products",
@@ -370,8 +361,7 @@
       "title": "My Profile",
       "manageAccount": "Manage your account settings",
       "accountInfo": "Account Info",
-      "myOrders": "My Orders",
-      "myOrdersCount": "My Orders ({count})",
+      "myOrders": "My Orders ({count})",
       "myAddresses": "My Addresses",
       "accountInformation": "Account Information",
       "name": "Name",

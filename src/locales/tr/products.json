@@ -1,0 +1,23 @@
+{
+  "brands": {
+    "audioTech": "AudioTech",
+    "fashionHub": "FashionHub",
+    "techGear": "TechGear",
+    "styleShop": "StyleShop",
+    "eliteBrand": "EliteBrand",
+    "qualityGoods": "QualityGoods"
+  },
+  "badges": {
+    "new": "Yeni",
+    "hot": "Popüler",
+    "sale": "İndirim",
+    "featured": "Öne Çıkan"
+  },
+  "availability": {
+    "inStock": "Stokta",
+    "outOfStock": "Stokta Yok",
+    "limitedStock": "Sınırlı Stok",
+    "preOrder": "Ön Sipariş"
+  }
+}
+

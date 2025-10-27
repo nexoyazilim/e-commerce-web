@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ShoppingBag, Heart, Search, Package, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { type ReactNode, type ComponentType, type SVGProps } from 'react';
@@ -15,43 +16,44 @@ interface EmptyStateProps {
   onCtaClick?: () => void;
 }
 
-const config = {
-  cart: {
-    icon: ShoppingCart,
-    title: 'Your cart is empty',
-    description: 'Start shopping to add items to your cart',
-    ctaText: 'Browse Products',
-    ctaLink: '/products',
-  },
-  favorites: {
-    icon: Heart,
-    title: 'No favorites yet',
-    description: 'Save products you love for easy access later',
-    ctaText: 'Discover Products',
-    ctaLink: '/products',
-  },
-  search: {
-    icon: Search,
-    title: 'No results found',
-    description: 'Try adjusting your search or filters',
-    ctaText: 'Clear Filters',
-    ctaLink: '/products',
-  },
-  orders: {
-    icon: Package,
-    title: 'No orders yet',
-    description: 'Start shopping to see your orders here',
-    ctaText: 'Start Shopping',
-    ctaLink: '/products',
-  },
-};
-
 export function EmptyState({ type, icon, title, description, ctaText, ctaLink, action, onCtaClick }: EmptyStateProps) {
+  const { t } = useTranslation();
+  
+  const config = {
+    cart: {
+      icon: ShoppingCart,
+      title: t('empty.cart'),
+      description: t('empty.cartDesc'),
+      ctaText: t('empty.browse'),
+      ctaLink: '/products',
+    },
+    favorites: {
+      icon: Heart,
+      title: t('empty.favorites'),
+      description: t('empty.favoritesDesc'),
+      ctaText: t('empty.discover'),
+      ctaLink: '/products',
+    },
+    search: {
+      icon: Search,
+      title: t('empty.search'),
+      description: t('empty.searchDesc'),
+      ctaText: t('empty.clearFilters'),
+      ctaLink: '/products',
+    },
+    orders: {
+      icon: Package,
+      title: t('empty.orders'),
+      description: t('empty.ordersDesc'),
+      ctaText: t('empty.startShopping'),
+      ctaLink: '/products',
+    },
+  };
   const selectedConfig = type ? config[type] : null;
   const selectedIcon = icon || selectedConfig?.icon || ShoppingBag;
-  const defaultTitle = selectedConfig?.title || title || 'Empty';
-  const defaultDescription = selectedConfig?.description || description || 'Nothing to show';
-  const defaultCtaText = selectedConfig?.ctaText || ctaText || 'Continue';
+  const defaultTitle = selectedConfig?.title || title || t('empty.default');
+  const defaultDescription = selectedConfig?.description || description || t('empty.defaultDesc');
+  const defaultCtaText = selectedConfig?.ctaText || ctaText || t('common.continue');
   const defaultCtaLink = selectedConfig?.ctaLink || ctaLink;
 
   const Icon = selectedIcon;

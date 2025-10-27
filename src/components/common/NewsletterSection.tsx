@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
+import { useTranslation } from "react-i18next"
 import { Mail, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ConfettiEffect } from "./ConfettiEffect"
 
 export function NewsletterSection() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("")
   const [subscribed, setSubscribed] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
@@ -46,9 +48,9 @@ export function NewsletterSection() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="text-3xl font-bold mb-2">Thank You!</h2>
+              <h2 className="text-3xl font-bold mb-2">{t('home.newsletter.thankYou')}</h2>
               <p className="text-muted-foreground">
-                You've been added to our newsletter. Check your inbox for a special welcome offer!
+                {t('home.newsletter.thankYouDesc')}
               </p>
             </motion.div>
           ) : (
@@ -58,21 +60,21 @@ export function NewsletterSection() {
                   <Mail className="h-8 w-8 text-primary" />
                 </div>
               </div>
-              <h2 className="text-3xl font-bold mb-2">Stay Updated</h2>
+              <h2 className="text-3xl font-bold mb-2">{t('home.newsletter.title')}</h2>
               <p className="text-muted-foreground mb-6">
-                Subscribe to our newsletter and get exclusive offers, new product alerts, and more!
+                {t('home.newsletter.desc')}
               </p>
               <form onSubmit={handleSubscribe} className="flex gap-2 max-w-md mx-auto">
                 <Input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t('home.newsletter.placeholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="flex-1"
                   required
                 />
                 <Button type="submit">
-                  Subscribe
+                  {t('actions.subscribe')}
                 </Button>
               </form>
             </>

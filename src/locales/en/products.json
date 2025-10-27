@@ -1,0 +1,23 @@
+{
+  "brands": {
+    "audioTech": "AudioTech",
+    "fashionHub": "FashionHub",
+    "techGear": "TechGear",
+    "styleShop": "StyleShop",
+    "eliteBrand": "EliteBrand",
+    "qualityGoods": "QualityGoods"
+  },
+  "badges": {
+    "new": "New",
+    "hot": "Hot",
+    "sale": "Sale",
+    "featured": "Featured"
+  },
+  "availability": {
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "limitedStock": "Limited Stock",
+    "preOrder": "Pre-order"
+  }
+}
+

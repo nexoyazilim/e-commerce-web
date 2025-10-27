@@ -19,6 +19,17 @@ vi.mock('react-i18next', () => ({
       language: 'en',
     },
   }),
+  initReactI18next: {
+    type: 'languageDetector',
+    init: vi.fn(),
+  },
+}));
+
+// Mock i18n module
+vi.mock('@/i18n', () => ({
+  default: {
+    t: (key: string) => key,
+  },
 }));
 
 // Mock react-router-dom

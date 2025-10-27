@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Award, Heart, Users, Package, TrendingUp, Globe, ShieldCheck, Target } from 'lucide-react';
 
 export function AboutPage() {
+  const { t } = useTranslation();
   const timeline = [
-    { year: '2020', title: 'Company Founded', description: 'Started with a vision to revolutionize online shopping' },
-    { year: '2021', title: 'First 10,000 Customers', description: 'Reached our first major milestone' },
-    { year: '2022', title: 'International Expansion', description: 'Launched in 5 countries across Europe' },
-    { year: '2023', title: 'Mobile App Launch', description: 'Introduced our mobile application' },
-    { year: '2024', title: '1 Million Products', description: 'Expanded our catalog to over 1 million products' },
+    { year: '2020', title: t('pages.about.timeline2020'), description: t('pages.about.timeline2020Desc') },
+    { year: '2021', title: t('pages.about.timeline2021'), description: t('pages.about.timeline2021Desc') },
+    { year: '2022', title: t('pages.about.timeline2022'), description: t('pages.about.timeline2022Desc') },
+    { year: '2023', title: t('pages.about.timeline2023'), description: t('pages.about.timeline2023Desc') },
+    { year: '2024', title: t('pages.about.timeline2024'), description: t('pages.about.timeline2024Desc') },
   ];
 
   const teamMembers = [
@@ -20,10 +22,10 @@ export function AboutPage() {
   ];
 
   const stats = [
-    { number: '10M+', label: 'Happy Customers', icon: Users },
-    { number: '150+', label: 'Countries Served', icon: Globe },
-    { number: '500k+', label: 'Products Available', icon: Package },
-    { number: '99.9%', label: 'Uptime Guarantee', icon: ShieldCheck },
+    { number: '10M+', label: t('pages.about.stats.customers'), icon: Users },
+    { number: '150+', label: t('pages.about.stats.countries'), icon: Globe },
+    { number: '500k+', label: t('pages.about.stats.products'), icon: Package },
+    { number: '99.9%', label: t('pages.about.stats.uptime'), icon: ShieldCheck },
   ];
 
   return (
@@ -33,7 +35,7 @@ export function AboutPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mx-auto max-w-6xl"
       >
-        <h1 className="mb-8 text-4xl font-bold tracking-tight">About Us</h1>
+        <h1 className="mb-8 text-4xl font-bold tracking-tight">{t('pages.about.title')}</h1>
 
         {/* Introduction */}
         <motion.div
@@ -43,11 +45,10 @@ export function AboutPage() {
           className="mb-12"
         >
           <p className="mb-4 text-lg text-muted-foreground">
-            Welcome to our premium e-commerce platform. We are dedicated to providing you with the
-            highest quality products and exceptional shopping experiences.
+            {t('pages.about.intro')}
           </p>
           <p className="text-lg text-muted-foreground">
-            Our mission is to make online shopping simple, enjoyable, and accessible to everyone.
+            {t('pages.about.mission')}
           </p>
         </motion.div>
 
@@ -60,18 +61,16 @@ export function AboutPage() {
         >
           <div className="rounded-lg border bg-gradient-to-br from-primary/5 to-primary/10 p-6">
             <Target className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-3 text-2xl font-bold">Our Mission</h2>
+            <h2 className="mb-3 text-2xl font-bold">{t('pages.about.missionTitle')}</h2>
             <p className="text-muted-foreground">
-              To provide exceptional online shopping experiences by offering quality products, competitive prices, 
-              and outstanding customer service to customers worldwide.
+              {t('pages.about.missionDesc')}
             </p>
           </div>
           <div className="rounded-lg border bg-gradient-to-br from-primary/5 to-primary/10 p-6">
             <TrendingUp className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-3 text-2xl font-bold">Our Vision</h2>
+            <h2 className="mb-3 text-2xl font-bold">{t('pages.about.visionTitle')}</h2>
             <p className="text-muted-foreground">
-              To become the world's most trusted and innovative e-commerce platform, setting new standards 
-              for online retail and customer satisfaction.
+              {t('pages.about.visionDesc')}
             </p>
           </div>
         </motion.div>
@@ -83,7 +82,7 @@ export function AboutPage() {
           transition={{ delay: 0.2 }}
           className="mb-12"
         >
-          <h2 className="mb-6 text-3xl font-bold text-center">Our Achievements</h2>
+          <h2 className="mb-6 text-3xl font-bold text-center">{t('pages.about.achievements')}</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat, i) => (
               <div key={i} className="rounded-lg border bg-card p-6 text-center transition-all hover:shadow-lg">
@@ -102,7 +101,7 @@ export function AboutPage() {
           transition={{ delay: 0.25 }}
           className="mb-12"
         >
-          <h2 className="mb-8 text-3xl font-bold text-center">Our Journey</h2>
+          <h2 className="mb-8 text-3xl font-bold text-center">{t('pages.about.journey')}</h2>
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border"></div>
             {timeline.map((item, i) => (
@@ -126,7 +125,7 @@ export function AboutPage() {
           transition={{ delay: 0.3 }}
           className="mb-12"
         >
-          <h2 className="mb-8 text-3xl font-bold text-center">Meet Our Team</h2>
+          <h2 className="mb-8 text-3xl font-bold text-center">{t('pages.about.teamTitle')}</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {teamMembers.map((member, i) => (
               <div key={i} className="rounded-lg border bg-card p-6 text-center transition-all hover:shadow-lg">
@@ -149,34 +148,34 @@ export function AboutPage() {
           transition={{ delay: 0.35 }}
           className="mb-12"
         >
-          <h2 className="mb-6 text-3xl font-bold text-center">Why Choose Us</h2>
+          <h2 className="mb-6 text-3xl font-bold text-center">{t('pages.about.whyChooseUs')}</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-lg border bg-card p-6 text-center transition-all hover:shadow-lg">
               <Award className="mx-auto mb-3 h-12 w-12 text-primary" />
-              <h3 className="mb-2 font-bold">Quality First</h3>
+              <h3 className="mb-2 font-bold">{t('pages.about.qualityFirst')}</h3>
               <p className="text-sm text-muted-foreground">
-                We carefully curate every product to ensure premium quality and customer satisfaction.
+                {t('pages.about.qualityFirstDesc')}
               </p>
             </div>
             <div className="rounded-lg border bg-card p-6 text-center transition-all hover:shadow-lg">
               <Heart className="mx-auto mb-3 h-12 w-12 text-primary" />
-              <h3 className="mb-2 font-bold">Customer Focus</h3>
+              <h3 className="mb-2 font-bold">{t('pages.about.customerFocus')}</h3>
               <p className="text-sm text-muted-foreground">
-                Your satisfaction is our top priority. We're always here to help you find what you need.
+                {t('pages.about.customerFocusDesc')}
               </p>
             </div>
             <div className="rounded-lg border bg-card p-6 text-center transition-all hover:shadow-lg">
               <Users className="mx-auto mb-3 h-12 w-12 text-primary" />
-              <h3 className="mb-2 font-bold">Trusted Community</h3>
+              <h3 className="mb-2 font-bold">{t('pages.about.trustedCommunity')}</h3>
               <p className="text-sm text-muted-foreground">
-                Join thousands of satisfied customers who trust us for their shopping needs.
+                {t('pages.about.trustedCommunityDesc')}
               </p>
             </div>
             <div className="rounded-lg border bg-card p-6 text-center transition-all hover:shadow-lg">
               <Package className="mx-auto mb-3 h-12 w-12 text-primary" />
-              <h3 className="mb-2 font-bold">Fast Delivery</h3>
+              <h3 className="mb-2 font-bold">{t('pages.about.fastDelivery')}</h3>
               <p className="text-sm text-muted-foreground">
-                We offer quick and reliable shipping to get your products to you fast.
+                {t('pages.about.fastDeliveryDesc')}
               </p>
             </div>
           </div>
@@ -189,35 +188,35 @@ export function AboutPage() {
           transition={{ delay: 0.4 }}
           className="rounded-lg border bg-gradient-to-br from-primary/5 to-primary/10 p-8"
         >
-          <h2 className="mb-6 text-center text-3xl font-bold">Our Values</h2>
+          <h2 className="mb-6 text-center text-3xl font-bold">{t('pages.about.valuesTitle')}</h2>
           <div className="grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <h3 className="mb-2 font-bold flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-primary" />
-                Transparency
+                {t('pages.about.transparency')}
               </h3>
-              <p className="text-sm text-muted-foreground">Clear pricing and honest communication</p>
+              <p className="text-sm text-muted-foreground">{t('pages.about.transparencyDesc')}</p>
             </div>
             <div>
               <h3 className="mb-2 font-bold flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-primary" />
-                Innovation
+                {t('pages.about.innovation')}
               </h3>
-              <p className="text-sm text-muted-foreground">Continuously improving our platform</p>
+              <p className="text-sm text-muted-foreground">{t('pages.about.innovationDesc')}</p>
             </div>
             <div>
               <h3 className="mb-2 font-bold flex items-center gap-2">
                 <Heart className="h-5 w-5 text-primary" />
-                Sustainability
+                {t('pages.about.sustainability')}
               </h3>
-              <p className="text-sm text-muted-foreground">Committed to eco-friendly practices</p>
+              <p className="text-sm text-muted-foreground">{t('pages.about.sustainabilityDesc')}</p>
             </div>
             <div>
               <h3 className="mb-2 font-bold flex items-center gap-2">
                 <Award className="h-5 w-5 text-primary" />
-                Excellence
+                {t('pages.about.excellence')}
               </h3>
-              <p className="text-sm text-muted-foreground">Striving for perfection in everything we do</p>
+              <p className="text-sm text-muted-foreground">{t('pages.about.excellenceDesc')}</p>
             </div>
           </div>
         </motion.div>

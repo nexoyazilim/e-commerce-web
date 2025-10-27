@@ -71,7 +71,9 @@ export class ErrorBoundary extends Component<Props, State> {
         return this.props.fallback;
       }
 
-      // Default fallback UI
+      // Default fallback UI with hardcoded English text as fallback
+      // In a production environment, we'd use i18n here, but for ErrorBoundary 
+      // in class components, we need a different approach
       return (
         <div className="flex min-h-[60vh] items-center justify-center p-4">
           <div className="mx-auto max-w-md text-center">

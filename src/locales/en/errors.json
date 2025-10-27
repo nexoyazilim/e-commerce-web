@@ -1,0 +1,54 @@
+{
+  "validation": {
+    "required": "Please fill in all required fields",
+    "email": "Please enter a valid email address",
+    "phone": "Please enter a valid phone number",
+    "length": "Input is too long"
+  },
+  "storage": {
+    "quota": "Storage quota exceeded. Please clear some data and try again.",
+    "access": "Unable to access storage. Please check your browser settings.",
+    "save": "Failed to save data. Please try again."
+  },
+  "auth": {
+    "login": "Login failed. Please check your credentials.",
+    "logout": "Failed to log out. Please try again.",
+    "unauthorized": "You must be logged in to perform this action."
+  },
+  "cart": {
+    "add": "Failed to add item to cart. Please try again.",
+    "remove": "Failed to remove item from cart. Please try again.",
+    "update": "Failed to update cart. Please try again.",
+    "empty": "Your cart is empty."
+  },
+  "order": {
+    "create": "Failed to create order. Please try again.",
+    "validate": "Order data is invalid. Please check your information."
+  },
+  "review": {
+    "submit": "Failed to submit review. Please try again.",
+    "validate": "Please provide a valid rating and comment.",
+    "length": "Review text is too long. Please shorten your review."
+  },
+  "favorites": {
+    "add": "Failed to add to favorites. Please try again.",
+    "remove": "Failed to remove from favorites. Please try again."
+  },
+  "network": {
+    "timeout": "Request timed out. Please try again.",
+    "offline": "You are offline. Please check your connection.",
+    "server": "Server error. Please try again later."
+  },
+  "general": {
+    "unexpected": "An unexpected error occurred. Please try again.",
+    "retry": "Something went wrong. Please try again."
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "message": "We're sorry, but something unexpected happened. Please try again.",
+    "tryAgain": "Try Again",
+    "reloadPage": "Reload Page",
+    "errorDetails": "Error details (dev only)"
+  }
+}
+

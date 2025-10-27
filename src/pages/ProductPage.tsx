@@ -18,10 +18,12 @@ import { toast } from 'react-hot-toast';
 import { useProductsStore } from '@/stores/productsStore';
 import { getDefaultColor, getDefaultSize, hasAvailableVariants, calculateDiscount } from '@/lib/product-utils';
 import { OptimizedImage } from '@/components/common/OptimizedImage';
+import { useTranslation } from 'react-i18next';
 
 const ConfettiEffect = lazy(() => import('@/components/common/ConfettiEffect').then(m => ({ default: m.ConfettiEffect })));
 
 export function ProductPage() {
+  const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const getProductBySlug = useProductsStore((state) => state.getProductBySlug);
   const products = useProductsStore((state) => state.products);
@@ -56,12 +58,12 @@ export function ProductPage() {
   const handleAddToCart = () => {
     // Validate that variants are selected and available
     if (!hasAvailableVariants(product)) {
-      toast.error('Product variants not available. Please try another product.');
+      toast.error(t('pages.product.selectVariant'));
       return;
     }
     
     if (!selectedColor || !selectedSize) {
-      toast.error('Please select a color and size');
+      toast.error(t('pages.product.selectColorSize'));
       return;
     }
     
@@ -73,22 +75,22 @@ export function ProductPage() {
         size: selectedSize,
       }, quantity);
       setShowConfetti(true);
-      toast.success(`Added ${quantity} item${quantity > 1 ? 's' : ''} to cart!`);
+      toast.success(t('pages.product.addedToCart', { quantity }));
       setTimeout(() => setShowConfetti(false), 1000);
     } catch (error) {
       console.error('Error adding item to cart:', error);
-      toast.error('Failed to add item to cart. Please try again.');
+      toast.error(t('cart.addError'));
     }
   };
 
   const handleToggleFavorite = () => {
     toggleFavorite(product.id);
-    toast.success(isFavorite ? 'Removed from favorites' : 'Added to favorites');
+    toast.success(isFavorite ? t('pages.product.removedFromFavorites') : t('pages.product.addedToFavorites'));
   };
 
   const breadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: 'Products', href: '/products' },
+    { label: t('pages.checkout.breadcrumbHome'), href: '/' },
+    { label: t('pages.checkout.breadcrumbProducts'), href: '/products' },
     { label: product.title, href: `/product/${product.slug}` },
   ];
 
@@ -167,10 +169,10 @@ export function ProductPage() {
               onClick={handleAddToCart} 
               disabled={!product.inStock || !hasAvailableVariants(product)} 
               className="flex-1"
-              aria-label="Add to cart"
+              aria-label={t('pages.product.addToCart')}
             >
               <ShoppingCart className="mr-2 h-4 w-4" />
-              Add to Cart
+              {t('pages.product.addToCart')}
             </Button>
             <Button 
               size="lg" 
@@ -209,10 +211,10 @@ export function ProductPage() {
       >
         <Tabs defaultValue="description" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="description">Description</TabsTrigger>
-            <TabsTrigger value="specifications">Specifications</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            <TabsTrigger value="shipping">Shipping</TabsTrigger>
+            <TabsTrigger value="description">{t('pages.product.description')}</TabsTrigger>
+            <TabsTrigger value="specifications">{t('pages.product.specifications')}</TabsTrigger>
+            <TabsTrigger value="reviews">{t('pages.product.reviews')}</TabsTrigger>
+            <TabsTrigger value="shipping">{t('pages.product.shipping')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="description" className="mt-6">
@@ -225,19 +227,19 @@ export function ProductPage() {
             <div className="bg-muted/30 rounded-lg p-6">
               <ul className="space-y-3">
                 <li className="flex justify-between border-b pb-3">
-                  <span className="text-muted-foreground">Brand</span>
+                  <span className="text-muted-foreground">{t('pages.product.brand')}</span>
                   <span className="font-medium">{product.brand}</span>
                 </li>
                 <li className="flex justify-between border-b pb-3">
-                  <span className="text-muted-foreground">Available Colors</span>
+                  <span className="text-muted-foreground">{t('pages.product.availableColors')}</span>
                   <span>{product.colors.join(', ')}</span>
                 </li>
                 <li className="flex justify-between border-b pb-3">
-                  <span className="text-muted-foreground">Available Sizes</span>
+                  <span className="text-muted-foreground">{t('pages.product.availableSizes')}</span>
                   <span>{product.sizes.join(', ')}</span>
                 </li>
                 <li className="flex justify-between border-b pb-3">
-                  <span className="text-muted-foreground">Rating</span>
+                  <span className="text-muted-foreground">{t('pages.product.rating')}</span>
                   <span>{product.rating}/5</span>
                 </li>
               </ul>
@@ -251,15 +253,15 @@ export function ProductPage() {
           <TabsContent value="shipping" className="mt-6">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="rounded-lg border p-4 hover:border-primary transition-colors">
-                <h3 className="font-semibold mb-2">Free Shipping</h3>
+                <h3 className="font-semibold mb-2">{t('pages.product.freeShipping')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Free shipping on orders over 500₺
+                  {t('pages.product.freeShippingDesc')}
                 </p>
               </div>
               <div className="rounded-lg border p-4 hover:border-primary transition-colors">
-                <h3 className="font-semibold mb-2">Estimated Delivery</h3>
+                <h3 className="font-semibold mb-2">{t('pages.product.estimatedDelivery')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  2-5 business days
+                  {t('pages.product.deliveryDesc')}
                 </p>
               </div>
             </div>
@@ -270,7 +272,7 @@ export function ProductPage() {
       {/* Similar Products */}
       {similarProducts.length > 0 && (
         <div className="mt-12">
-          <h2 className="mb-6 text-2xl font-bold">Similar Products</h2>
+          <h2 className="mb-6 text-2xl font-bold">{t('pages.product.similarProducts')}</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {similarProducts.map((item) => (
               <Link key={item.id} to={`/product/${item.slug}`}>

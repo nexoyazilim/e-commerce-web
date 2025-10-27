@@ -1,24 +1,26 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Facebook, Twitter, Instagram, Youtube, Mail, MapPin, Phone } from 'lucide-react';
 
 export function Footer() {
-
+  const { t } = useTranslation();
+  
   const quickLinks = [
-    { label: 'About Us', href: '/about' },
-    { label: 'Contact', href: '/contact' },
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms & Conditions', href: '/terms' },
-    { label: 'Shipping Info', href: '/shipping' },
-    { label: 'Returns', href: '/returns' },
+    { label: t('footer.links.aboutUs'), href: '/about' },
+    { label: t('footer.links.contact'), href: '/contact' },
+    { label: t('footer.links.privacy'), href: '/privacy' },
+    { label: t('footer.links.terms'), href: '/terms' },
+    { label: t('footer.links.shipping'), href: '/shipping' },
+    { label: t('footer.links.returns'), href: '/returns' },
   ];
 
   const customerService = [
-    { label: 'FAQs', href: '/faq' },
-    { label: 'Track Order', href: '/track' },
-    { label: 'Size Guide', href: '/size-guide' },
-    { label: 'Gift Cards', href: '/gift-cards' },
-    { label: 'Help Center', href: '/help' },
+    { label: t('footer.links.faq'), href: '/faq' },
+    { label: t('footer.links.track'), href: '/track' },
+    { label: t('footer.links.sizeGuide'), href: '/size-guide' },
+    { label: t('footer.links.giftCards'), href: '/gift-cards' },
+    { label: t('footer.links.help'), href: '/help' },
   ];
 
   const socialLinks = [
@@ -63,29 +65,29 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
           <motion.div variants={itemVariants}>
-            <h3 className="mb-4 text-lg font-bold">E-Commerce Demo</h3>
+            <h3 className="mb-4 text-lg font-bold">{t('footer.company')}</h3>
             <p className="mb-4 text-sm text-muted-foreground">
-              Your trusted shopping destination. Quality products, great prices, exceptional service.
+              {t('app.tagline')}
             </p>
             <div className="space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
-                <span>Istanbul, Turkey</span>
+                <span>{t('footer.address')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
-                <span>+90 555 123 4567</span>
+                <span>{t('footer.phone')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                <span>contact@example.com</span>
+                <span>{t('footer.email')}</span>
               </div>
             </div>
           </motion.div>
 
           {/* Quick Links */}
           <motion.div variants={itemVariants}>
-            <h3 className="mb-4 text-lg font-bold">Quick Links</h3>
+            <h3 className="mb-4 text-lg font-bold">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -106,7 +108,7 @@ export function Footer() {
 
           {/* Customer Service */}
           <motion.div variants={itemVariants}>
-            <h3 className="mb-4 text-lg font-bold">Customer Service</h3>
+            <h3 className="mb-4 text-lg font-bold">{t('footer.customerService')}</h3>
             <ul className="space-y-2">
               {customerService.map((link) => (
                 <li key={link.href}>
@@ -127,14 +129,14 @@ export function Footer() {
 
           {/* Newsletter */}
           <motion.div variants={itemVariants}>
-            <h3 className="mb-4 text-lg font-bold">Newsletter</h3>
+            <h3 className="mb-4 text-lg font-bold">{t('footer.newsletter')}</h3>
             <p className="mb-4 text-sm text-muted-foreground">
-              Subscribe to get special offers and updates delivered right to your inbox.
+              {t('footer.subscribeDesc')}
             </p>
             <form className="flex gap-2">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('footer.enterEmail')}
                 className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <motion.button
@@ -143,7 +145,7 @@ export function Footer() {
                 whileTap={{ scale: 0.95 }}
                 className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
-                Subscribe
+                {t('actions.subscribe')}
               </motion.button>
             </form>
           </motion.div>
@@ -170,7 +172,7 @@ export function Footer() {
           variants={itemVariants}
           className="mt-8 text-center text-sm text-muted-foreground"
         >
-          <p>&copy; {new Date().getFullYear()} E-Commerce Demo. All rights reserved.</p>
+          <p>{t('footer.copyright')}</p>
         </motion.div>
       </motion.div>
     </footer>

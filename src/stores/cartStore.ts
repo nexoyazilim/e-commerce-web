@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { toast } from 'react-hot-toast';
 import { logError, getUserErrorMessage } from '@/lib/error-handler';
 import type { CartItem } from '@/types';
+import i18n from '@/i18n';
 
 interface CartStore {
   items: CartItem[];
@@ -68,24 +69,24 @@ export const useCartStore = create<CartStore>()(
       updateQuantity: (productId, variantKey, quantity) => {
         try {
           if (quantity < 0) {
-            logError({
-              context: 'cartStore.updateQuantity',
-              message: 'Quantity cannot be negative',
-              level: 'warn',
-              metadata: { productId, variantKey, quantity },
-            });
-            toast.error('Quantity cannot be negative');
-            return;
-          }
-          
-          if (quantity > 99) {
-            logError({
-              context: 'cartStore.updateQuantity',
-              message: 'Quantity exceeds maximum (99)',
-              level: 'warn',
-              metadata: { productId, variantKey, quantity },
-            });
-            toast.error('Maximum quantity is 99');
+          logError({
+            context: 'cartStore.updateQuantity',
+            message: 'Quantity cannot be negative',
+            level: 'warn',
+            metadata: { productId, variantKey, quantity },
+          });
+          toast.error(i18n.t('common.cart.quantityInvalid'));
+          return;
+        }
+        
+        if (quantity > 99) {
+          logError({
+            context: 'cartStore.updateQuantity',
+            message: 'Quantity exceeds maximum (99)',
+            level: 'warn',
+            metadata: { productId, variantKey, quantity },
+          });
+          toast.error(i18n.t('common.cart.quantityMax'));
             return;
           }
           
@@ -107,7 +108,7 @@ export const useCartStore = create<CartStore>()(
       clearCart: () => {
         try {
           set({ items: [] });
-          toast.success('Cart cleared');
+          toast.success(i18n.t('common.cart.clear'));
         } catch (error) {
           logError({
             context: 'cartStore.clearCart',

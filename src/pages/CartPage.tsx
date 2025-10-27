@@ -8,8 +8,10 @@ import { CartItem } from '@/components/cart/CartItem';
 import { useCartStore } from '@/stores/cartStore';
 import { useProductsStore } from '@/stores/productsStore';
 import type { Product } from '@/types';
+import { useTranslation } from 'react-i18next';
 
 export function CartPage() {
+  const { t } = useTranslation();
   const items = useCartStore((state) => state.items);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
@@ -58,10 +60,10 @@ export function CartPage() {
           className="flex flex-col items-center justify-center py-12 text-center"
         >
           <ShoppingBag className="mb-4 h-16 w-16 text-muted-foreground" />
-          <h1 className="mb-2 text-2xl font-bold">Your cart is empty</h1>
-          <p className="mb-6 text-muted-foreground">Start shopping to add items to your cart</p>
+          <h1 className="mb-2 text-2xl font-bold">{t('pages.cart.emptyTitle')}</h1>
+          <p className="mb-6 text-muted-foreground">{t('pages.cart.emptyDesc')}</p>
           <Button asChild>
-            <Link to="/products">Browse Products</Link>
+            <Link to="/products">{t('pages.cart.browseProducts')}</Link>
           </Button>
         </motion.div>
       </div>
@@ -71,8 +73,8 @@ export function CartPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8 animate-fade-in-up">
-        <h1 className="text-3xl font-bold tracking-tight">Shopping Cart</h1>
-        <p className="text-muted-foreground">{items.length} items in your cart</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t('pages.cart.title')}</h1>
+        <p className="text-muted-foreground">{t('pages.cart.itemsInCart', { count: items.length })}</p>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
@@ -108,19 +110,19 @@ export function CartPage() {
             transition={{ delay: 0.3 }}
             className="sticky top-8 space-y-4 rounded-lg border bg-card p-6"
           >
-            <h2 className="text-xl font-bold">Order Summary</h2>
+            <h2 className="text-xl font-bold">{t('pages.cart.orderSummary')}</h2>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span>Subtotal</span>
+                <span>{t('pages.cart.subtotal')}</span>
                 <span className="font-semibold">{totalPrice}₺</span>
               </div>
               <div className="flex justify-between">
-                <span>Shipping</span>
-                <span className="font-semibold">Free</span>
+                <span>{t('pages.cart.shipping')}</span>
+                <span className="font-semibold">{t('pages.cart.shippingFree')}</span>
               </div>
               <div className="border-t pt-2" />
               <div className="flex justify-between text-lg font-bold">
-                <span>Total</span>
+                <span>{t('pages.cart.total')}</span>
                 <motion.span
                   key={totalPrice}
                   initial={{ scale: 1.2 }}
@@ -133,15 +135,15 @@ export function CartPage() {
             </div>
 
             <div className="space-y-2">
-              <Input placeholder="Coupon code" />
+              <Input placeholder={t('pages.cart.couponPlaceholder')} />
               <Button variant="outline" className="w-full">
-                Apply Coupon
+                {t('pages.cart.applyCoupon')}
               </Button>
             </div>
 
             <Button className="w-full" size="lg" asChild>
               <Link to="/checkout">
-                Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
+                {t('pages.cart.checkout')} <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </motion.div>

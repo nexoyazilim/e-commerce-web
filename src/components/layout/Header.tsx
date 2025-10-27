@@ -15,7 +15,7 @@ import type { Product } from '@/types';
 import { sanitizeSearchQuery } from '@/lib/sanitize';
 
 export function Header() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
@@ -160,18 +160,20 @@ export function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="gap-1">
-                    Products
+                    {t('nav.products')}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56">
                   <DropdownMenuItem asChild>
-                    <Link to="/products">All Products</Link>
+                    <Link to="/products">{t('nav.allProducts')}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   {categoriesData.map((category) => (
                     <DropdownMenuItem key={category.id} asChild>
-                      <Link to={`/category/${category.slug}`}>{category.name}</Link>
+                      <Link to={`/category/${category.slug}`}>
+                        {t(`categories.${category.id}`)}
+                      </Link>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
@@ -180,38 +182,38 @@ export function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="gap-1">
-                    Shop
+                    {t('nav.shop')}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56">
                   <DropdownMenuItem asChild>
-                    <Link to="/category/electronics">Electronics</Link>
+                    <Link to="/category/electronics">{t('categories.electronics')}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/category/clothing">Clothing</Link>
+                    <Link to="/category/clothing">{t('categories.clothing')}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/category/shoes">Shoes</Link>
+                    <Link to="/category/shoes">{t('categories.shoes')}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/category/bags">Bags</Link>
+                    <Link to="/category/bags">{t('categories.bags')}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/category/home">Home & Living</Link>
+                    <Link to="/category/home">{t('categories.home')}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/category/accessories">Accessories</Link>
+                    <Link to="/category/accessories">{t('categories.accessories')}</Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
               <Button variant="ghost" asChild>
-                <Link to="/about">About</Link>
+                <Link to="/about">{t('nav.about')}</Link>
               </Button>
 
               <Button variant="ghost" asChild>
-                <Link to="/contact">Contact</Link>
+                <Link to="/contact">{t('nav.contact')}</Link>
               </Button>
             </nav>
           </div>
@@ -221,7 +223,7 @@ export function Header() {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search products..."
+                placeholder={t('search.placeholder')}
                 className="pl-8"
                 value={searchQuery}
                 maxLength={200}
@@ -231,7 +233,7 @@ export function Header() {
                 }}
                 onFocus={() => searchQuery && setShowSearchDropdown(true)}
                 onBlur={() => setTimeout(() => setShowSearchDropdown(false), 200)}
-                aria-label="Search products"
+                aria-label={t('search.placeholder')}
                 aria-expanded={showSearchDropdown}
                 aria-haspopup="listbox"
               />
@@ -277,9 +279,18 @@ export function Header() {
               variant="ghost" 
               size="icon" 
               onClick={toggleLanguage}
-              aria-label={`Switch to ${i18n.language === 'en' ? 'Turkish' : 'English'}`}
+              aria-label={t('lang.switch', { lang: i18n.language === 'en' ? 'Turkish' : 'English' })}
+              className="gap-1 px-2"
             >
-              {i18n.language === 'en' ? '🇹🇷' : '🇬🇧'}
+              {i18n.language === 'en' ? (
+                <>
+                  🇹🇷 <span className="text-sm">TR</span>
+                </>
+              ) : (
+                <>
+                  🇺🇸 <span className="text-sm">EN</span>
+                </>
+              )}
             </Button>
 
             <Button variant="ghost" size="icon" asChild>
@@ -326,7 +337,7 @@ export function Header() {
               className="fixed inset-y-0 left-0 z-50 w-64 bg-background border-r shadow-lg lg:hidden"
             >
               <div className="flex h-16 items-center justify-between border-b px-4">
-                <span className="text-lg font-semibold">Menu</span>
+                <span className="text-lg font-semibold">{t('nav.menu')}</span>
                 <Button variant="ghost" size="icon" onClick={() => setShowMobileMenu(false)}>
                   <X className="h-6 w-6" />
                 </Button>
@@ -335,17 +346,17 @@ export function Header() {
               <div className="overflow-y-auto p-4 space-y-2">
                 <Link to="/products" onClick={() => setShowMobileMenu(false)}>
                   <Button variant="ghost" className="w-full justify-start">
-                    All Products
+                    {t('nav.allProducts')}
                   </Button>
                 </Link>
                 
                 <div className="border-b my-2" />
                 
-                <div className="font-semibold text-sm px-2 py-1">Categories</div>
+                <div className="font-semibold text-sm px-2 py-1">{t('nav.categories')}</div>
                 {categoriesData.map((category) => (
                   <Link key={category.id} to={`/category/${category.slug}`} onClick={() => setShowMobileMenu(false)}>
                     <Button variant="ghost" className="w-full justify-start">
-                      {category.name}
+                      {t(`categories.${category.id}`)}
                     </Button>
                   </Link>
                 ))}
@@ -354,13 +365,13 @@ export function Header() {
                 
                 <Link to="/about" onClick={() => setShowMobileMenu(false)}>
                   <Button variant="ghost" className="w-full justify-start">
-                    About
+                    {t('nav.about')}
                   </Button>
                 </Link>
                 
                 <Link to="/contact" onClick={() => setShowMobileMenu(false)}>
                   <Button variant="ghost" className="w-full justify-start">
-                    Contact
+                    {t('nav.contact')}
                   </Button>
                 </Link>
               </div>

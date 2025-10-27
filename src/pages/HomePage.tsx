@@ -2,6 +2,7 @@ import { lazy, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Award, Shield, Truck, Laptop, Shirt, Footprints, House, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ProductCard } from '@/components/product/ProductCard';
 import { HeroSlider } from '@/components/common/HeroSlider';
 import { BrandCarousel } from '@/components/common/BrandCarousel';
@@ -15,6 +16,7 @@ import { OptimizedImage } from '@/components/common/OptimizedImage';
 const QuickViewModal = lazy(() => import('@/components/common/QuickViewModal').then(m => ({ default: m.QuickViewModal })));
 
 export function HomePage() {
+  const { t } = useTranslation();
   const products = useProductsStore((state) => state.products);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
@@ -23,27 +25,27 @@ export function HomePage() {
   const discountedProducts = products.filter(p => p.oldPrice).slice(0, 6);
 
   const categories = [
-    { name: 'Electronics', icon: Laptop, slug: 'electronics' },
-    { name: 'Clothing', icon: Shirt, slug: 'clothing' },
-    { name: 'Shoes', icon: Footprints, slug: 'shoes' },
-    { name: 'Bags', icon: ShoppingBag, slug: 'bags' },
-    { name: 'Home', icon: House, slug: 'home' },
-    { name: 'Accessories', icon: Sparkles, slug: 'accessories' },
+    { name: t('categories.electronics'), icon: Laptop, slug: 'electronics' },
+    { name: t('categories.clothing'), icon: Shirt, slug: 'clothing' },
+    { name: t('categories.shoes'), icon: Footprints, slug: 'shoes' },
+    { name: t('categories.bags'), icon: ShoppingBag, slug: 'bags' },
+    { name: t('categories.home'), icon: House, slug: 'home' },
+    { name: t('categories.accessories'), icon: Sparkles, slug: 'accessories' },
   ];
 
   const banners = [
     {
       id: '1',
       image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800',
-      title: 'Summer Sale',
-      description: 'Up to 50% off',
+      title: t('home.sales.summer'),
+      description: t('home.sales.summerSale'),
       link: '/products',
     },
     {
       id: '2',
       image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800',
-      title: 'New Arrivals',
-      description: 'Check them out',
+      title: t('home.sales.new'),
+      description: t('home.sales.checkOut'),
       link: '/products',
     },
   ];
@@ -51,42 +53,42 @@ export function HomePage() {
   const heroSlides = [
     {
       id: '1',
-      title: 'Welcome to Premium Shopping',
-      description: 'Discover the latest trends and find your perfect style. Shop with confidence.',
+      title: t('home.hero.welcome'),
+      description: t('home.hero.welcomeDesc'),
       image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1200',
-      ctaText: 'Shop Now',
+      ctaText: t('home.hero.shopNow'),
       ctaLink: '/products',
     },
     {
       id: '2',
-      title: 'Summer Collection 2024',
-      description: 'Get up to 50% off on all summer essentials. Limited time offer!',
+      title: t('home.hero.summer'),
+      description: t('home.hero.summerDesc'),
       image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200',
-      ctaText: 'Explore Collection',
+      ctaText: t('home.hero.explore'),
       ctaLink: '/products',
     },
     {
       id: '3',
-      title: 'New Arrivals',
-      description: 'Check out our newest products. Fresh designs, premium quality.',
+      title: t('home.hero.newArrivals'),
+      description: t('home.hero.newArrivalsDesc'),
       image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200',
-      ctaText: 'View Products',
+      ctaText: t('home.hero.viewProducts'),
       ctaLink: '/products',
     },
     {
       id: '4',
-      title: 'Free Shipping Available',
-      description: 'Free shipping on orders over 500₺. Fast and reliable delivery.',
+      title: t('home.hero.freeShipping'),
+      description: t('home.hero.freeShippingDesc'),
       image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200',
-      ctaText: 'Learn More',
+      ctaText: t('home.hero.learnMore'),
       ctaLink: '/about',
     },
     {
       id: '5',
-      title: 'Best Deals This Week',
-      description: 'Don\'t miss our weekly specials. Shop now and save big!',
+      title: t('home.hero.bestDeals'),
+      description: t('home.hero.bestDealsDesc'),
       image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200',
-      ctaText: 'Shop Deals',
+      ctaText: t('home.hero.shopDeals'),
       ctaLink: '/products',
     },
   ];
@@ -100,8 +102,8 @@ export function HomePage() {
       <section id="categories" className="py-16">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center animate-fade-in-up">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight">Shop by Category</h2>
-            <p className="text-muted-foreground">Find what you're looking for</p>
+            <h2 className="mb-4 text-3xl font-bold tracking-tight">{t('categories.shopByCategory')}</h2>
+            <p className="text-muted-foreground">{t('categories.findWhatYouNeed')}</p>
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
             {categories.map((category, i) => {
@@ -129,15 +131,15 @@ export function HomePage() {
       <section id="products" className="bg-muted/30 py-16">
         <div className="container mx-auto px-4">
           <ScrollReveal className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight">Featured Products</h2>
-            <p className="text-muted-foreground">Hand-picked just for you</p>
+            <h2 className="mb-4 text-3xl font-bold tracking-tight">{t('home.features.title')}</h2>
+            <p className="text-muted-foreground">{t('home.features.subtitle')}</p>
           </ScrollReveal>
           
           <Tabs defaultValue="new" className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
-              <TabsTrigger value="new">New</TabsTrigger>
-              <TabsTrigger value="popular">Popular</TabsTrigger>
-              <TabsTrigger value="discounted">Discounted</TabsTrigger>
+              <TabsTrigger value="new">{t('home.tabs.new')}</TabsTrigger>
+              <TabsTrigger value="popular">{t('home.tabs.popular')}</TabsTrigger>
+              <TabsTrigger value="discounted">{t('home.tabs.discounted')}</TabsTrigger>
             </TabsList>
             
             <TabsContent value="new" className="mt-6">
@@ -209,10 +211,10 @@ export function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: Truck, title: 'Free Shipping', description: 'On orders over 500₺' },
-              { icon: Shield, title: 'Secure Payment', description: '100% secure transactions' },
-              { icon: Award, title: 'Quality Guarantee', description: 'Premium quality products' },
-              { icon: ShoppingBag, title: 'Easy Returns', description: '30-day return policy' },
+              { icon: Truck, title: t('home.features.freeShipping'), description: t('home.features.freeShippingDesc') },
+              { icon: Shield, title: t('home.features.securePayment'), description: t('home.features.securePaymentDesc') },
+              { icon: Award, title: t('home.features.qualityGuarantee'), description: t('home.features.qualityGuaranteeDesc') },
+              { icon: ShoppingBag, title: t('home.features.easyReturns'), description: t('home.features.easyReturnsDesc') },
             ].map((feature, i) => {
               const staggerClass = `stagger-${(i % 5) + 1}`;
               return (

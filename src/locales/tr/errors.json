@@ -1,0 +1,54 @@
+{
+  "validation": {
+    "required": "Lütfen tüm zorunlu alanları doldurun",
+    "email": "Lütfen geçerli bir e-posta adresi girin",
+    "phone": "Lütfen geçerli bir telefon numarası girin",
+    "length": "Girdi çok uzun"
+  },
+  "storage": {
+    "quota": "Depolama kotası aşıldı. Lütfen bazı verileri temizleyip tekrar deneyin.",
+    "access": "Depolamaya erişilemiyor. Lütfen tarayıcı ayarlarınızı kontrol edin.",
+    "save": "Veri kaydedilemedi. Lütfen tekrar deneyin."
+  },
+  "auth": {
+    "login": "Giriş başarısız oldu. Lütfen kimlik bilgilerinizi kontrol edin.",
+    "logout": "Çıkış yapılamadı. Lütfen tekrar deneyin.",
+    "unauthorized": "Bu işlemi gerçekleştirmek için giriş yapmalısınız."
+  },
+  "cart": {
+    "add": "Ürün sepete eklenemedi. Lütfen tekrar deneyin.",
+    "remove": "Ürün sepetten kaldırılamadı. Lütfen tekrar deneyin.",
+    "update": "Sepet güncellenemedi. Lütfen tekrar deneyin.",
+    "empty": "Sepetiniz boş."
+  },
+  "order": {
+    "create": "Sipariş oluşturulamadı. Lütfen tekrar deneyin.",
+    "validate": "Sipariş verileri geçersiz. Lütfen bilgilerinizi kontrol edin."
+  },
+  "review": {
+    "submit": "Yorum gönderilemedi. Lütfen tekrar deneyin.",
+    "validate": "Lütfen geçerli bir puan ve yorum sağlayın.",
+    "length": "Yorum metni çok uzun. Lütfen yorumunuzu kısaltın."
+  },
+  "favorites": {
+    "add": "Favorilere eklenemedi. Lütfen tekrar deneyin.",
+    "remove": "Favorilerden kaldırılamadı. Lütfen tekrar deneyin."
+  },
+  "network": {
+    "timeout": "İstek zaman aşımına uğradı. Lütfen tekrar deneyin.",
+    "offline": "İnternet bağlantınız yok. Lütfen bağlantınızı kontrol edin.",
+    "server": "Sunucu hatası. Lütfen daha sonra tekrar deneyin."
+  },
+  "general": {
+    "unexpected": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+    "retry": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin."
+  },
+  "errorBoundary": {
+    "title": "Bir hata oluştu",
+    "message": "Üzgünüz, beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+    "tryAgain": "Tekrar Dene",
+    "reloadPage": "Sayfayı Yenile",
+    "errorDetails": "Hata detayları (yalnızca geliştirme)"
+  }
+}
+

@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Shield, Lock, Eye, FileText } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function PrivacyPage() {
+  const { t } = useTranslation();
   return (
     <div className="container mx-auto px-4 py-12">
       <motion.div
@@ -11,8 +13,8 @@ export function PrivacyPage() {
       >
         <div className="mb-8 text-center">
           <Shield className="mx-auto mb-4 h-16 w-16 text-primary" />
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">Privacy Policy</h1>
-          <p className="text-lg text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">{t('pages.privacy.title')}</h1>
+          <p className="text-lg text-muted-foreground">{t('pages.privacy.lastUpdated')}: {new Date().toLocaleDateString()}</p>
         </div>
 
         <div className="space-y-6">
@@ -23,17 +25,17 @@ export function PrivacyPage() {
           >
             <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
               <Lock className="h-6 w-6 text-primary" />
-              Information We Collect
+              {t('pages.privacy.informationWeCollect')}
             </h2>
             <p className="mb-4 text-muted-foreground">
-              We collect information that you provide to us directly, including but not limited to:
+              {t('pages.privacy.informationWeCollectDesc')}
             </p>
             <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-              <li>Personal identification information (name, email address, phone number)</li>
-              <li>Account information and preferences</li>
-              <li>Payment information for processing orders</li>
-              <li>Shipping and billing addresses</li>
-              <li>Product reviews and feedback</li>
+              <li>{t('pages.privacy.personalInfo')}</li>
+              <li>{t('pages.privacy.accountInfo')}</li>
+              <li>{t('pages.privacy.paymentInfo')}</li>
+              <li>{t('pages.privacy.shippingAddress')}</li>
+              <li>{t('pages.privacy.reviews')}</li>
             </ul>
           </motion.section>
 
@@ -44,17 +46,17 @@ export function PrivacyPage() {
           >
             <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
               <Eye className="h-6 w-6 text-primary" />
-              How We Use Your Information
+              {t('pages.privacy.howWeUse')}
             </h2>
             <p className="mb-4 text-muted-foreground">
-              We use the information we collect for various purposes, including:
+              {t('pages.privacy.howWeUseDesc')}
             </p>
             <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-              <li>To process and fulfill your orders</li>
-              <li>To communicate with you about your orders and account</li>
-              <li>To improve our website and services</li>
-              <li>To send you promotional materials and updates (with your consent)</li>
-              <li>To prevent fraud and ensure security</li>
+              <li>{t('pages.privacy.processOrders')}</li>
+              <li>{t('pages.privacy.communicate')}</li>
+              <li>{t('pages.privacy.improve')}</li>
+              <li>{t('pages.privacy.promotional')}</li>
+              <li>{t('pages.privacy.security')}</li>
             </ul>
           </motion.section>
 
@@ -65,11 +67,10 @@ export function PrivacyPage() {
           >
             <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
               <Shield className="h-6 w-6 text-primary" />
-              Data Security
+              {t('pages.privacy.dataSecurity')}
             </h2>
             <p className="mb-4 text-muted-foreground">
-              We implement appropriate technical and organizational security measures to protect your personal information
-              against unauthorized access, alteration, disclosure, or destruction.
+              {t('pages.privacy.dataSecurityDesc')}
             </p>
           </motion.section>
 
@@ -80,17 +81,17 @@ export function PrivacyPage() {
           >
             <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
               <FileText className="h-6 w-6 text-primary" />
-              Your Rights
+              {t('pages.privacy.yourRights')}
             </h2>
             <p className="mb-4 text-muted-foreground">
-              You have the right to:
+              {t('pages.privacy.yourRightsDesc')}
             </p>
             <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-              <li>Access your personal information</li>
-              <li>Correct inaccurate data</li>
-              <li>Request deletion of your data</li>
-              <li>Opt-out of marketing communications</li>
-              <li>Data portability</li>
+              <li>{t('pages.privacy.access')}</li>
+              <li>{t('pages.privacy.correct')}</li>
+              <li>{t('pages.privacy.delete')}</li>
+              <li>{t('pages.privacy.optOut')}</li>
+              <li>{t('pages.privacy.portability')}</li>
             </ul>
           </motion.section>
 
@@ -99,9 +100,9 @@ export function PrivacyPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <h2 className="mb-4 text-2xl font-bold">Contact Us</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.privacy.contact')}</h2>
             <p className="text-muted-foreground">
-              If you have any questions about this Privacy Policy, please contact us at privacy@example.com
+              {t('pages.privacy.contactDesc')}
             </p>
           </motion.section>
         </div>

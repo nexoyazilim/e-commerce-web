@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { Gift, Sparkles, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 
 export function GiftCardsPage() {
+  const { t } = useTranslation();
   return (
     <div className="container mx-auto px-4 py-12">
       <motion.div
@@ -12,7 +14,7 @@ export function GiftCardsPage() {
       >
         <div className="mb-8 text-center">
           <Gift className="mx-auto mb-4 h-16 w-16 text-primary" />
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">Gift Cards</h1>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">{t('pages.giftCards.title')}</h1>
         </div>
 
         <div className="space-y-6">
@@ -23,9 +25,9 @@ export function GiftCardsPage() {
             className="rounded-lg border bg-gradient-to-br from-primary/10 to-primary/5 p-8 text-center"
           >
             <Sparkles className="mx-auto mb-4 h-16 w-16 text-primary" />
-            <h2 className="mb-4 text-2xl font-bold">The Perfect Gift</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.giftCards.perfectGift')}</h2>
             <p className="mb-6 text-muted-foreground">
-              Give the gift of choice with our flexible gift cards. They never expire and can be used on any product.
+              {t('pages.giftCards.perfectGiftDesc')}
             </p>
             <div className="grid gap-4 sm:grid-cols-3">
               {[100, 250, 500].map((amount) => (
@@ -35,7 +37,7 @@ export function GiftCardsPage() {
               ))}
             </div>
             <Button size="lg" className="mt-6">
-              Purchase Gift Card
+              {t('pages.giftCards.purchase')}
             </Button>
           </motion.div>
 
@@ -46,12 +48,12 @@ export function GiftCardsPage() {
             className="rounded-lg border bg-card p-6"
           >
             <CreditCard className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-4 text-2xl font-bold">How It Works</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.giftCards.howItWorks')}</h2>
             <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-              <li>Choose your gift card amount</li>
-              <li>Complete secure payment</li>
-              <li>Receive gift card via email instantly</li>
-              <li>Redeem at checkout with your unique code</li>
+              <li>{t('pages.giftCards.chooseAmount')}</li>
+              <li>{t('pages.giftCards.securePayment')}</li>
+              <li>{t('pages.giftCards.receiveEmail')}</li>
+              <li>{t('pages.giftCards.redeem')}</li>
             </ul>
           </motion.div>
         </div>

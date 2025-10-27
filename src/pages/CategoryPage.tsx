@@ -8,8 +8,10 @@ import { ProductCard } from '@/components/product/ProductCard';
 import categoriesData from '@/data/categories.json';
 import { useProductsStore } from '@/stores/productsStore';
 import { useFilterStore } from '@/stores/filterStore';
+import { useTranslation } from 'react-i18next';
 
 export function CategoryPage() {
+  const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const [searchQuery, setSearchQuery] = useState('');
   const viewMode = useFilterStore((state) => state.viewMode);
@@ -26,8 +28,8 @@ export function CategoryPage() {
   if (!category) {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
-        <h1 className="mb-4 text-2xl font-bold">Category Not Found</h1>
-        <p className="text-muted-foreground">The category you're looking for doesn't exist.</p>
+        <h1 className="mb-4 text-2xl font-bold">{t('pages.category.categoryNotFound')}</h1>
+        <p className="text-muted-foreground">{t('pages.category.categoryNotFoundDesc')}</p>
       </div>
     );
   }
@@ -41,13 +43,13 @@ export function CategoryPage() {
       >
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">{category.name}</h1>
-          <p className="text-muted-foreground">{filteredProducts.length} products available</p>
+          <p className="text-muted-foreground">{t('pages.category.productsAvailable', { count: filteredProducts.length })}</p>
         </div>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex-1">
             <Input
-              placeholder="Search products..."
+              placeholder={t('pages.category.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="max-w-sm"
@@ -94,7 +96,7 @@ export function CategoryPage() {
 
       {filteredProducts.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12 text-center">
-          <p className="text-lg text-muted-foreground">No products found</p>
+          <p className="text-lg text-muted-foreground">{t('pages.category.noProductsFound')}</p>
         </div>
       )}
     </div>

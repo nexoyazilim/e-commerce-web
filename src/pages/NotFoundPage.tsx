@@ -2,8 +2,10 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Home, Search, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 
 export function NotFoundPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const popularCategories = [
@@ -69,7 +71,7 @@ export function NotFoundPage() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="mb-4 text-3xl font-bold"
         >
-          Page Not Found
+          {t('pages.notFound.title')}
         </motion.h2>
 
         <motion.p
@@ -78,7 +80,7 @@ export function NotFoundPage() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="mb-8 text-muted-foreground"
         >
-          The page you're looking for doesn't exist or has been moved.
+          {t('pages.notFound.description')}
         </motion.p>
 
         {/* Floating Background Elements */}
@@ -112,7 +114,7 @@ export function NotFoundPage() {
           transition={{ delay: 0.6, duration: 0.6 }}
           className="mb-8"
         >
-          <h3 className="mb-4 text-lg font-semibold">Popular Categories</h3>
+          <h3 className="mb-4 text-lg font-semibold">{t('pages.notFound.popularCategories')}</h3>
           <div className="flex flex-wrap justify-center gap-2">
             {popularCategories.map((category, index) => (
               <motion.div
@@ -148,7 +150,7 @@ export function NotFoundPage() {
             <Button size="lg" asChild>
               <Link to="/">
                 <Home className="mr-2 h-4 w-4" />
-                Go Home
+                {t('pages.notFound.goHome')}
               </Link>
             </Button>
           </motion.div>
@@ -160,7 +162,7 @@ export function NotFoundPage() {
             <Button size="lg" variant="outline" asChild>
               <Link to="/products">
                 <Search className="mr-2 h-4 w-4" />
-                Browse Products
+                {t('pages.notFound.browseProducts')}
               </Link>
             </Button>
           </motion.div>
@@ -175,7 +177,7 @@ export function NotFoundPage() {
               onClick={() => navigate(-1)}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Go Back
+              {t('pages.notFound.goBack')}
             </Button>
           </motion.div>
         </motion.div>

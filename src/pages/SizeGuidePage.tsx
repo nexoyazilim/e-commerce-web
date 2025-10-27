@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Ruler, Shirt, Footprints } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function SizeGuidePage() {
+  const { t } = useTranslation();
   return (
     <div className="container mx-auto px-4 py-12">
       <motion.div
@@ -11,7 +13,7 @@ export function SizeGuidePage() {
       >
         <div className="mb-8 text-center">
           <Ruler className="mx-auto mb-4 h-16 w-16 text-primary" />
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">Size Guide</h1>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">{t('pages.sizeGuide.title')}</h1>
         </div>
 
         <div className="space-y-8">
@@ -22,15 +24,15 @@ export function SizeGuidePage() {
             className="rounded-lg border bg-card p-6"
           >
             <Shirt className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-4 text-2xl font-bold">Clothing Sizes</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.sizeGuide.clothing')}</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="p-3 text-left font-semibold">Size</th>
-                    <th className="p-3 text-left font-semibold">Chest (cm)</th>
-                    <th className="p-3 text-left font-semibold">Waist (cm)</th>
-                    <th className="p-3 text-left font-semibold">Length (cm)</th>
+                    <th className="p-3 text-left font-semibold">{t('pages.sizeGuide.size')}</th>
+                    <th className="p-3 text-left font-semibold">{t('pages.sizeGuide.chest')}</th>
+                    <th className="p-3 text-left font-semibold">{t('pages.sizeGuide.waist')}</th>
+                    <th className="p-3 text-left font-semibold">{t('pages.sizeGuide.length')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -70,15 +72,15 @@ export function SizeGuidePage() {
             className="rounded-lg border bg-card p-6"
           >
             <Footprints className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-4 text-2xl font-bold">Shoe Sizes</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.sizeGuide.shoe')}</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="p-3 text-left font-semibold">EU Size</th>
-                    <th className="p-3 text-left font-semibold">UK Size</th>
-                    <th className="p-3 text-left font-semibold">US Size</th>
-                    <th className="p-3 text-left font-semibold">Length (cm)</th>
+                    <th className="p-3 text-left font-semibold">{t('pages.sizeGuide.euSize')}</th>
+                    <th className="p-3 text-left font-semibold">{t('pages.sizeGuide.ukSize')}</th>
+                    <th className="p-3 text-left font-semibold">{t('pages.sizeGuide.usSize')}</th>
+                    <th className="p-3 text-left font-semibold">{t('pages.sizeGuide.length')}</th>
                   </tr>
                 </thead>
                 <tbody>

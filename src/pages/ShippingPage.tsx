@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Truck, Package, Clock, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function ShippingPage() {
+  const { t } = useTranslation();
   return (
     <div className="container mx-auto px-4 py-12">
       <motion.div
@@ -11,7 +13,7 @@ export function ShippingPage() {
       >
         <div className="mb-8 text-center">
           <Truck className="mx-auto mb-4 h-16 w-16 text-primary" />
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">Shipping Information</h1>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">{t('pages.shipping.title')}</h1>
         </div>
 
         <div className="space-y-6">
@@ -22,15 +24,15 @@ export function ShippingPage() {
             className="rounded-lg border bg-card p-6"
           >
             <Package className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-4 text-2xl font-bold">Shipping Methods</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.shipping.methods')}</h2>
             <p className="mb-4 text-muted-foreground">
-              We offer various shipping options to meet your needs:
+              {t('pages.shipping.methodsDesc')}
             </p>
             <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-              <li>Standard Shipping: 5-7 business days</li>
-              <li>Express Shipping: 2-3 business days</li>
-              <li>Overnight Shipping: Next business day</li>
-              <li>International Shipping: 7-14 business days</li>
+              <li>{t('pages.shipping.standard')}</li>
+              <li>{t('pages.shipping.express')}</li>
+              <li>{t('pages.shipping.overnight')}</li>
+              <li>{t('pages.shipping.international')}</li>
             </ul>
           </motion.div>
 
@@ -41,10 +43,9 @@ export function ShippingPage() {
             className="rounded-lg border bg-card p-6"
           >
             <Truck className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-4 text-2xl font-bold">Free Shipping</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.shipping.freeShipping')}</h2>
             <p className="text-muted-foreground">
-              We offer free standard shipping on all orders over 500₺ within Turkey. Free shipping applies
-              automatically at checkout for qualifying orders.
+              {t('pages.shipping.freeShippingDesc')}
             </p>
           </motion.div>
 
@@ -55,10 +56,9 @@ export function ShippingPage() {
             className="rounded-lg border bg-card p-6"
           >
             <Clock className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-4 text-2xl font-bold">Processing Time</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.shipping.processingTime')}</h2>
             <p className="text-muted-foreground">
-              Most orders are processed within 1-2 business days after payment confirmation.
-              During peak seasons, processing may take up to 3-4 business days.
+              {t('pages.shipping.processingTimeDesc')}
             </p>
           </motion.div>
 
@@ -69,10 +69,9 @@ export function ShippingPage() {
             className="rounded-lg border bg-card p-6"
           >
             <MapPin className="mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-4 text-2xl font-bold">Shipping Locations</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.shipping.locations')}</h2>
             <p className="text-muted-foreground">
-              We ship to addresses within Turkey and internationally. Shipping costs vary based on
-              destination and shipping method selected at checkout.
+              {t('pages.shipping.locationsDesc')}
             </p>
           </motion.div>
         </div>

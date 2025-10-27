@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Scale, FileText, AlertCircle, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function TermsPage() {
+  const { t } = useTranslation();
   return (
     <div className="container mx-auto px-4 py-12">
       <motion.div
@@ -11,8 +13,8 @@ export function TermsPage() {
       >
         <div className="mb-8 text-center">
           <Scale className="mx-auto mb-4 h-16 w-16 text-primary" />
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">Terms & Conditions</h1>
-          <p className="text-lg text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">{t('pages.terms.title')}</h1>
+          <p className="text-lg text-muted-foreground">{t('pages.terms.lastUpdated')}: {new Date().toLocaleDateString()}</p>
         </div>
 
         <div className="space-y-6">
@@ -23,10 +25,10 @@ export function TermsPage() {
           >
             <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
               <FileText className="h-6 w-6 text-primary" />
-              Agreement to Terms
+              {t('pages.terms.agreement')}
             </h2>
             <p className="text-muted-foreground">
-              By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.
+              {t('pages.terms.agreementDesc')}
             </p>
           </motion.section>
 
@@ -37,10 +39,10 @@ export function TermsPage() {
           >
             <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
               <CheckCircle className="h-6 w-6 text-primary" />
-              Use License
+              {t('pages.terms.useLicense')}
             </h2>
             <p className="mb-4 text-muted-foreground">
-              Permission is granted to temporarily download one copy of the materials for personal, non-commercial transitory viewing only.
+              {t('pages.terms.useLicenseDesc')}
             </p>
           </motion.section>
 
@@ -51,12 +53,10 @@ export function TermsPage() {
           >
             <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
               <AlertCircle className="h-6 w-6 text-primary" />
-              Disclaimer
+              {t('pages.terms.disclaimer')}
             </h2>
             <p className="text-muted-foreground">
-              The materials on this website are provided on an 'as is' basis. We make no warranties, expressed or implied,
-              and hereby disclaim and negate all other warranties including without limitation, implied warranties or
-              conditions of merchantability.
+              {t('pages.terms.disclaimerDesc')}
             </p>
           </motion.section>
 
@@ -65,9 +65,9 @@ export function TermsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <h2 className="mb-4 text-2xl font-bold">Limitations</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.terms.limitations')}</h2>
             <p className="text-muted-foreground">
-              In no event shall we be liable for any damages arising out of the use or inability to use the materials on this website.
+              {t('pages.terms.limitationsDesc')}
             </p>
           </motion.section>
 
@@ -76,10 +76,9 @@ export function TermsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <h2 className="mb-4 text-2xl font-bold">Revisions</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('pages.terms.revisions')}</h2>
             <p className="text-muted-foreground">
-              We may revise these terms of service at any time without notice. By using this website you are agreeing to be
-              bound by the current version of these terms of service.
+              {t('pages.terms.revisionsDesc')}
             </p>
           </motion.section>
         </div>

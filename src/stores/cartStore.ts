@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { toast } from 'react-hot-toast';
+import { logError, getUserErrorMessage } from '@/lib/error-handler';
 import type { CartItem } from '@/types';
 
 interface CartStore {
@@ -49,7 +51,13 @@ export const useCartStore = create<CartStore>()(
             }, 100);
           }
         } catch (error) {
-          console.error('Error adding item to cart:', error);
+          logError({
+            context: 'cartStore.addItem',
+            message: 'Failed to add item to cart',
+            error: error instanceof Error ? error : new Error(String(error)),
+            metadata: { item },
+          });
+          toast.error(getUserErrorMessage(error, 'cartStore'));
           throw error;
         }
       },
@@ -60,29 +68,65 @@ export const useCartStore = create<CartStore>()(
             items: state.items.filter((i) => !(i.productId === productId && i.variantKey === variantKey)),
           }));
         } catch (error) {
-          console.error('Error removing item from cart:', error);
+          logError({
+            context: 'cartStore.removeItem',
+            message: 'Failed to remove item from cart',
+            error: error instanceof Error ? error : new Error(String(error)),
+            metadata: { productId, variantKey },
+          });
+          toast.error(getUserErrorMessage(error, 'cartStore'));
         }
       },
       updateQuantity: (productId, variantKey, quantity) => {
         try {
           if (quantity < 0) {
-            console.warn('Quantity cannot be negative');
+            logError({
+              context: 'cartStore.updateQuantity',
+              message: 'Quantity cannot be negative',
+              level: 'warn',
+              metadata: { productId, variantKey, quantity },
+            });
+            toast.error('Quantity cannot be negative');
             return;
           }
+          
+          if (quantity > 99) {
+            logError({
+              context: 'cartStore.updateQuantity',
+              message: 'Quantity exceeds maximum (99)',
+              level: 'warn',
+              metadata: { productId, variantKey, quantity },
+            });
+            toast.error('Maximum quantity is 99');
+            return;
+          }
+          
           set((state) => ({
             items: state.items.map((i) =>
               i.productId === productId && i.variantKey === variantKey ? { ...i, quantity } : i
             ),
           }));
         } catch (error) {
-          console.error('Error updating quantity:', error);
+          logError({
+            context: 'cartStore.updateQuantity',
+            message: 'Failed to update quantity',
+            error: error instanceof Error ? error : new Error(String(error)),
+            metadata: { productId, variantKey, quantity },
+          });
+          toast.error(getUserErrorMessage(error, 'cartStore'));
         }
       },
       clearCart: () => {
         try {
           set({ items: [] });
+          toast.success('Cart cleared');
         } catch (error) {
-          console.error('Error clearing cart:', error);
+          logError({
+            context: 'cartStore.clearCart',
+            message: 'Failed to clear cart',
+            error: error instanceof Error ? error : new Error(String(error)),
+          });
+          toast.error(getUserErrorMessage(error, 'cartStore'));
         }
       },
       getTotalPrice: (getProductPrice) => {
@@ -92,7 +136,12 @@ export const useCartStore = create<CartStore>()(
             return total + (price * item.quantity);
           }, 0);
         } catch (error) {
-          console.error('Error calculating total price:', error);
+          logError({
+            context: 'cartStore.getTotalPrice',
+            message: 'Failed to calculate total price',
+            error: error instanceof Error ? error : new Error(String(error)),
+            level: 'warn',
+          });
           return 0;
         }
       },
@@ -100,7 +149,12 @@ export const useCartStore = create<CartStore>()(
         try {
           return get().items.reduce((sum, item) => sum + item.quantity, 0);
         } catch (error) {
-          console.error('Error calculating total items:', error);
+          logError({
+            context: 'cartStore.getTotalItems',
+            message: 'Failed to calculate total items',
+            error: error instanceof Error ? error : new Error(String(error)),
+            level: 'warn',
+          });
           return 0;
         }
       },

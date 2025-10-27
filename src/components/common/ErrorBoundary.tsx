@@ -1,6 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { logError } from '@/lib/error-handler';
 
 interface Props {
   children: ReactNode;
@@ -35,17 +36,23 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log the error to console in development
+    // Use centralized error logging
+    logError({
+      context: 'ErrorBoundary.componentDidCatch',
+      message: error.message || 'Unknown error occurred',
+      error,
+      metadata: {
+        componentStack: errorInfo.componentStack,
+        errorBoundary: 'ErrorBoundary',
+        environment: import.meta.env.MODE,
+      },
+    });
+
+    // Log to console in development with full details
     if (import.meta.env.DEV) {
       console.error('Error caught by ErrorBoundary:', error);
       console.error('Error info:', errorInfo);
-    }
-
-    // In production, you might want to log this to an error reporting service
-    // e.g., Sentry, LogRocket, etc.
-    if (import.meta.env.PROD) {
-      // TODO: Send error to error reporting service
-      console.error('Production error:', error);
+      console.error('Component stack:', errorInfo.componentStack);
     }
   }
 

@@ -10,6 +10,7 @@ import { useOrderStore } from '@/stores/orderStore';
 import { ConfettiEffect } from '@/components/common/ConfettiEffect';
 import { toast } from 'react-hot-toast';
 import productsData from '@/data/products.json';
+import { logError, getUserErrorMessage } from '@/lib/error-handler';
 import type { Product } from '@/types';
 
 export function CheckoutPage() {
@@ -44,14 +45,57 @@ export function CheckoutPage() {
   );
 
   const handleNext = () => {
-    if (step === 1) {
-      if (!address.fullName || !address.address || !address.city || !address.phone) {
-        toast.error('Please fill in all required fields');
-        return;
+    try {
+      if (step === 1) {
+        // Validate shipping address
+        if (!address.fullName || address.fullName.trim().length === 0) {
+          toast.error('Please enter your full name');
+          logError({
+            context: 'CheckoutPage.handleNext',
+            message: 'Full name is required',
+            level: 'warn',
+          });
+          return;
+        }
+        
+        if (address.fullName.length < 2) {
+          toast.error('Full name must be at least 2 characters');
+          return;
+        }
+        
+        if (!address.address || address.address.trim().length === 0) {
+          toast.error('Please enter your address');
+          return;
+        }
+        
+        if (!address.city || address.city.trim().length === 0) {
+          toast.error('Please enter your city');
+          return;
+        }
+        
+        if (!address.phone || address.phone.trim().length === 0) {
+          toast.error('Please enter your phone number');
+          return;
+        }
+        
+        // Basic phone validation (at least 10 digits)
+        const phoneDigits = address.phone.replace(/\D/g, '');
+        if (phoneDigits.length < 10) {
+          toast.error('Please enter a valid phone number');
+          return;
+        }
       }
-    }
-    if (step < 3) {
-      setStep(step + 1);
+      
+      if (step < 3) {
+        setStep(step + 1);
+      }
+    } catch (error) {
+      logError({
+        context: 'CheckoutPage.handleNext',
+        message: 'Failed to proceed to next step',
+        error: error instanceof Error ? error : new Error(String(error)),
+      });
+      toast.error(getUserErrorMessage(error, 'CheckoutPage'));
     }
   };
 
@@ -64,28 +108,74 @@ export function CheckoutPage() {
   };
 
   const handleCompleteOrder = () => {
-    addOrder({
-      items: cartProducts.map((item) => ({
-        productId: item.product.id,
-        title: item.product.title,
-        quantity: item.quantity,
-        price: item.product.price,
-        image: item.product.images[0],
-        variantKey: item.variantKey,
-      })),
-      total: totalPrice,
-      status: 'processing',
-      shippingAddress: `${address.address}, ${address.city}`,
-      paymentMethod,
-    });
+    try {
+      // Validate cart is not empty
+      if (cartProducts.length === 0) {
+        toast.error('Your cart is empty. Please add items to your cart first.');
+        logError({
+          context: 'CheckoutPage.handleCompleteOrder',
+          message: 'Attempted to complete order with empty cart',
+          level: 'warn',
+        });
+        return;
+      }
+      
+      // Validate total price
+      if (!totalPrice || totalPrice <= 0) {
+        toast.error('Invalid order total. Please try again.');
+        logError({
+          context: 'CheckoutPage.handleCompleteOrder',
+          message: 'Invalid order total',
+          metadata: { totalPrice },
+        });
+        return;
+      }
+      
+      // Validate cart products have valid data
+      for (const item of cartProducts) {
+        if (!item.product || !item.product.id || !item.product.title) {
+          toast.error('Invalid product data. Please try again.');
+          logError({
+            context: 'CheckoutPage.handleCompleteOrder',
+            message: 'Invalid product data in cart',
+            metadata: { item },
+          });
+          return;
+        }
+      }
+      
+      // Create order
+      addOrder({
+        items: cartProducts.map((item) => ({
+          productId: item.product.id,
+          title: item.product.title,
+          quantity: item.quantity,
+          price: item.product.price,
+          image: item.product.images[0],
+          variantKey: item.variantKey,
+        })),
+        total: totalPrice,
+        status: 'processing',
+        shippingAddress: `${address.address}, ${address.city}`,
+        paymentMethod,
+      });
 
-    clearCart();
-    setShowConfetti(true);
-    toast.success('Order placed successfully!');
-    setTimeout(() => {
-      setShowConfetti(false);
-      navigate('/profile');
-    }, 2000);
+      clearCart();
+      setShowConfetti(true);
+      toast.success('Order placed successfully!');
+      setTimeout(() => {
+        setShowConfetti(false);
+        navigate('/profile');
+      }, 2000);
+    } catch (error) {
+      logError({
+        context: 'CheckoutPage.handleCompleteOrder',
+        message: 'Failed to complete order',
+        error: error instanceof Error ? error : new Error(String(error)),
+        metadata: { cartProductsCount: cartProducts.length, totalPrice },
+      });
+      toast.error(getUserErrorMessage(error, 'CheckoutPage'));
+    }
   };
 
   return (

@@ -14,10 +14,23 @@ import type { Product } from '@/types';
  * @returns Discount percentage (0-100)
  */
 export function calculateDiscount(price: number, oldPrice?: number): number {
-  if (!oldPrice || oldPrice <= 0 || price >= oldPrice) return 0;
-  
-  const discount = ((oldPrice - price) / oldPrice) * 100;
-  return Math.round(discount);
+  try {
+    // Validate inputs
+    if (typeof price !== 'number' || isNaN(price) || price < 0) {
+      console.warn('Invalid price in calculateDiscount:', price);
+      return 0;
+    }
+    
+    if (!oldPrice || typeof oldPrice !== 'number' || isNaN(oldPrice) || oldPrice <= 0 || price >= oldPrice) {
+      return 0;
+    }
+    
+    const discount = ((oldPrice - price) / oldPrice) * 100;
+    return Math.round(discount);
+  } catch (error) {
+    console.error('Error calculating discount:', error);
+    return 0;
+  }
 }
 
 /**
@@ -27,7 +40,23 @@ export function calculateDiscount(price: number, oldPrice?: number): number {
  * @returns Formatted price string
  */
 export function formatPrice(amount: number, currency = '₺'): string {
-  return `${amount}${currency}`;
+  try {
+    // Validate inputs
+    if (typeof amount !== 'number' || isNaN(amount)) {
+      console.warn('Invalid amount in formatPrice:', amount);
+      return `0${currency}`;
+    }
+    
+    if (typeof currency !== 'string' || currency.length === 0) {
+      console.warn('Invalid currency in formatPrice:', currency);
+      currency = '₺';
+    }
+    
+    return `${amount}${currency}`;
+  } catch (error) {
+    console.error('Error formatting price:', error);
+    return `0${currency}`;
+  }
 }
 
 /**
@@ -36,7 +65,19 @@ export function formatPrice(amount: number, currency = '₺'): string {
  * @returns true if product has colors and sizes
  */
 export function hasAvailableVariants(product: Product): boolean {
-  return product.colors.length > 0 && product.sizes.length > 0;
+  try {
+    if (!product || typeof product !== 'object') {
+      return false;
+    }
+    
+    const colors = Array.isArray(product.colors) ? product.colors : [];
+    const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+    
+    return colors.length > 0 && sizes.length > 0;
+  } catch (error) {
+    console.error('Error checking available variants:', error);
+    return false;
+  }
 }
 
 /**
@@ -45,7 +86,17 @@ export function hasAvailableVariants(product: Product): boolean {
  * @returns Default color or empty string
  */
 export function getDefaultColor(product: Product): string {
-  return product.colors.length > 0 ? product.colors[0] : '';
+  try {
+    if (!product || typeof product !== 'object') {
+      return '';
+    }
+    
+    const colors = Array.isArray(product.colors) ? product.colors : [];
+    return colors.length > 0 ? colors[0] : '';
+  } catch (error) {
+    console.error('Error getting default color:', error);
+    return '';
+  }
 }
 
 /**
@@ -54,7 +105,17 @@ export function getDefaultColor(product: Product): string {
  * @returns Default size or empty string
  */
 export function getDefaultSize(product: Product): string {
-  return product.sizes.length > 0 ? product.sizes[0] : '';
+  try {
+    if (!product || typeof product !== 'object') {
+      return '';
+    }
+    
+    const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+    return sizes.length > 0 ? sizes[0] : '';
+  } catch (error) {
+    console.error('Error getting default size:', error);
+    return '';
+  }
 }
 
 /**
@@ -83,8 +144,18 @@ export function isInStock(product: Product): boolean {
  * @returns Filtered products
  */
 export function filterByStock(products: Product[], inStockOnly: boolean): Product[] {
-  if (!inStockOnly) return products;
-  return products.filter(isInStock);
+  try {
+    if (!Array.isArray(products)) {
+      console.warn('Invalid products array in filterByStock');
+      return [];
+    }
+    
+    if (!inStockOnly) return products;
+    return products.filter(isInStock);
+  } catch (error) {
+    console.error('Error filtering by stock:', error);
+    return [];
+  }
 }
 
 /**
@@ -94,9 +165,21 @@ export function filterByStock(products: Product[], inStockOnly: boolean): Produc
  * @returns Sorted products
  */
 export function sortByPrice(products: Product[], ascending = true): Product[] {
-  return [...products].sort((a, b) => {
-    return ascending ? a.price - b.price : b.price - a.price;
-  });
+  try {
+    if (!Array.isArray(products)) {
+      console.warn('Invalid products array in sortByPrice');
+      return [];
+    }
+    
+    return [...products].sort((a, b) => {
+      const priceA = typeof a?.price === 'number' && !isNaN(a.price) ? a.price : 0;
+      const priceB = typeof b?.price === 'number' && !isNaN(b.price) ? b.price : 0;
+      return ascending ? priceA - priceB : priceB - priceA;
+    });
+  } catch (error) {
+    console.error('Error sorting by price:', error);
+    return [];
+  }
 }
 
 /**
@@ -106,15 +189,32 @@ export function sortByPrice(products: Product[], ascending = true): Product[] {
  * @returns Filtered products
  */
 export function searchProducts(products: Product[], query: string): Product[] {
-  if (!query || query.trim().length === 0) return products;
-  
-  const lowerQuery = query.toLowerCase().trim();
-  
-  return products.filter(product => 
-    product.title.toLowerCase().includes(lowerQuery) ||
-    product.brand.toLowerCase().includes(lowerQuery) ||
-    product.description.toLowerCase().includes(lowerQuery)
-  );
+  try {
+    if (!Array.isArray(products)) {
+      console.warn('Invalid products array in searchProducts');
+      return [];
+    }
+    
+    if (!query || typeof query !== 'string' || query.trim().length === 0) return products;
+    
+    const lowerQuery = query.toLowerCase().trim();
+    
+    return products.filter(product => {
+      try {
+        const title = product?.title?.toLowerCase() || '';
+        const brand = product?.brand?.toLowerCase() || '';
+        const description = product?.description?.toLowerCase() || '';
+        
+        return title.includes(lowerQuery) || brand.includes(lowerQuery) || description.includes(lowerQuery);
+      } catch (error) {
+        console.error('Error filtering product:', error);
+        return false;
+      }
+    });
+  } catch (error) {
+    console.error('Error searching products:', error);
+    return [];
+  }
 }
 
 /**
@@ -125,8 +225,30 @@ export function searchProducts(products: Product[], query: string): Product[] {
 export function calculateCartTotal(
   items: Array<{ product: Product; quantity: number }>
 ): number {
-  return items.reduce((total, item) => {
-    return total + item.product.price * item.quantity;
-  }, 0);
+  try {
+    if (!Array.isArray(items)) {
+      console.warn('Invalid items array in calculateCartTotal');
+      return 0;
+    }
+    
+    return items.reduce((total, item) => {
+      if (!item || typeof item !== 'object') {
+        return total;
+      }
+      
+      const product = item.product;
+      const quantity = typeof item.quantity === 'number' && !isNaN(item.quantity) && item.quantity > 0 ? item.quantity : 0;
+      
+      if (!product || typeof product.price !== 'number' || isNaN(product.price)) {
+        return total;
+      }
+      
+      const itemTotal = product.price * quantity;
+      return total + (isNaN(itemTotal) ? 0 : itemTotal);
+    }, 0);
+  } catch (error) {
+    console.error('Error calculating cart total:', error);
+    return 0;
+  }
 }
 

@@ -9,6 +9,7 @@ import { useReviewStore } from '@/stores/reviewStore';
 import { useAuthStore } from '@/stores/authStore';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { logError, getUserErrorMessage } from '@/lib/error-handler';
 
 interface ReviewFormProps {
   productId: string;
@@ -26,30 +27,87 @@ export function ReviewForm({ productId, onClose }: ReviewFormProps) {
   const [errors, setErrors] = useState<{ title?: string; comment?: string; rating?: string }>({});
 
   const validateForm = () => {
-    const newErrors: { title?: string; comment?: string; rating?: string } = {};
-    if (!title.trim()) newErrors.title = t('errors.titleRequired');
-    if (!comment.trim()) newErrors.comment = t('errors.commentRequired');
-    if (rating === 0) newErrors.rating = t('errors.ratingRequired');
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    try {
+      const newErrors: { title?: string; comment?: string; rating?: string } = {};
+      
+      // Validate rating
+      if (rating === 0) {
+        newErrors.rating = 'Please provide a rating';
+      } else if (rating < 1 || rating > 5) {
+        newErrors.rating = 'Rating must be between 1 and 5';
+      }
+      
+      // Validate title
+      if (!title.trim()) {
+        newErrors.title = 'Title is required';
+      } else if (title.length > 200) {
+        newErrors.title = 'Title must be less than 200 characters';
+      } else if (title.trim().length < 3) {
+        newErrors.title = 'Title must be at least 3 characters';
+      }
+      
+      // Validate comment
+      if (!comment.trim()) {
+        newErrors.comment = 'Comment is required';
+      } else if (comment.length > 2000) {
+        newErrors.comment = 'Comment must be less than 2000 characters';
+      } else if (comment.trim().length < 10) {
+        newErrors.comment = 'Comment must be at least 10 characters';
+      }
+      
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    } catch (error) {
+      logError({
+        context: 'ReviewForm.validateForm',
+        message: 'Form validation failed',
+        error: error instanceof Error ? error : new Error(String(error)),
+      });
+      return false;
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm() || !user) return;
+    
+    try {
+      // Validate user is logged in
+      if (!user) {
+        toast.error('You must be logged in to submit a review');
+        logError({
+          context: 'ReviewForm.handleSubmit',
+          message: 'User not logged in',
+          level: 'warn',
+        });
+        return;
+      }
+      
+      // Validate form
+      if (!validateForm()) {
+        return;
+      }
 
-    addReview({
-      productId,
-      userId: user.id,
-      userName: user.name,
-      rating,
-      title,
-      comment,
-      verified: false,
-    });
+      addReview({
+        productId,
+        userId: user.id,
+        userName: user.name,
+        rating,
+        title,
+        comment,
+        verified: false,
+      });
 
-    toast.success(t('review.submitted'));
-    onClose();
+      toast.success(t('review.submitted'));
+      onClose();
+    } catch (error) {
+      logError({
+        context: 'ReviewForm.handleSubmit',
+        message: 'Failed to submit review',
+        error: error instanceof Error ? error : new Error(String(error)),
+        metadata: { productId, hasUser: !!user },
+      });
+      toast.error(getUserErrorMessage(error, 'ReviewForm'));
+    }
   };
 
   return (
